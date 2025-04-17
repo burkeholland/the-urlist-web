@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface LinkItemProps {
   id: number;
@@ -17,6 +19,26 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
   const [editDescription, setEditDescription] = useState(description);
   const [isFocused, setIsFocused] = useState(false);
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ 
+    id: id,
+    // Disable drag when in editing mode
+    disabled: isEditing
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : 1,
+  };
+
   const handleSave = () => {
     onEdit(id, {
       url: editUrl,
@@ -29,7 +51,10 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
   if (isEditing) {
     return (
       <div className="bg-white rounded-2xl p-6 space-y-4 
-        border border-gray-200 shadow-sm animate-fade-in">
+        border border-gray-200 shadow-sm animate-fade-in"
+        ref={setNodeRef}
+        style={style}
+      >
         <input
           type="url"
           value={editUrl}
@@ -87,10 +112,34 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
   }
 
   return (
-    <div className="group relative flex items-start gap-4 p-5 rounded-2xl 
-      bg-white hover:bg-gray-50
-      border border-gray-200
-      transition-all duration-300">
+    <div 
+      ref={setNodeRef}
+      style={style}
+      className={`group relative flex items-start gap-4 p-5 rounded-2xl 
+        bg-white hover:bg-gray-50
+        border border-gray-200 
+        ${isDragging ? 'ring-2 ring-[#15BFAE] shadow-md' : ''}
+        transition-all duration-300`}
+    >
+      {/* Drag handle */}
+      <div 
+        {...attributes}
+        {...listeners}
+        className="mr-2 mt-1 cursor-grab active:cursor-grabbing p-1 rounded-lg
+          hover:bg-gray-100 touch-none flex items-center justify-center"
+        title="Drag to reorder"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-5 w-5 text-gray-400 group-hover:text-[#15BFAE] transition-colors duration-300" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+        </svg>
+      </div>
+      
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <a
