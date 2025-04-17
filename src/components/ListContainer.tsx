@@ -3,6 +3,7 @@ import { AddLink } from './AddLink';
 import { LinkItem } from './LinkItem';
 import { ShareButton } from './ShareButton';
 import type { Link } from '../types/link';
+import { ConfirmationModal } from './ConfirmationModal';
 
 interface ListContainerProps {
   listId: number;
@@ -13,6 +14,8 @@ export function ListContainer({ listId }: ListContainerProps) {
   const [description, setDescription] = useState('');
   const [links, setLinks] = useState<Link[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [linkToDelete, setLinkToDelete] = useState<{ id: number; title: string } | null>(null);
 
   const fetchListData = async () => {
     try {
@@ -46,23 +49,34 @@ export function ListContainer({ listId }: ListContainerProps) {
 
   const handleDeleteLink = async (linkId: number) => {
     // Find the link to get its title for the confirmation message
-    const linkToDelete = links.find(link => link.id === linkId);
-    const linkTitle = linkToDelete?.title || linkToDelete?.url || 'this link';
+    const link = links.find(link => link.id === linkId);
+    const linkTitle = link?.title || link?.url || 'this link';
     
-    // Show confirmation dialog
-    const confirmed = window.confirm(`Are you sure you want to delete ${linkTitle}?`);
+    // Open confirmation modal
+    setLinkToDelete({ id: linkId, title: linkTitle });
+    setIsDeleteModalOpen(true);
+  };
+  
+  const confirmDelete = async () => {
+    if (!linkToDelete) return;
     
-    if (!confirmed) return; // Do nothing if user cancels
-
     try {
-      const response = await fetch(`/api/links/${linkId}`, {
+      const response = await fetch(`/api/links/${linkToDelete.id}`, {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to delete link');
-      setLinks(links.filter(link => link.id !== linkId));
+      setLinks(links.filter(link => link.id !== linkToDelete.id));
     } catch (error) {
       console.error('Error deleting link:', error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setLinkToDelete(null);
     }
+  };
+  
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setLinkToDelete(null);
   };
 
   const handleEditLink = async (linkId: number, data: { url: string; title?: string; description?: string }) => {
@@ -130,6 +144,14 @@ export function ListContainer({ listId }: ListContainerProps) {
           </div>
         )}
       </div>
+      
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        message={linkToDelete ? `Are you sure you want to delete ${linkToDelete.title}?` : ''}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 }

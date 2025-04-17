@@ -15,8 +15,6 @@ describe('ListContainer', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-    // Mock window.confirm to return true by default
-    vi.spyOn(window, 'confirm').mockImplementation(() => true);
   });
 
   it('shows loading state initially', () => {
@@ -45,14 +43,16 @@ describe('ListContainer', () => {
     render(<ListContainer listId={listId} />);
     await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
     
-    // Confirm deletion
-    (window.confirm as any).mockReturnValueOnce(true);
-    
+    // Click delete button to open the modal
     fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
     
-    // Verify confirmation dialog was shown
-    expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to delete Link 1?');
+    // Verify confirmation modal shows correct message
+    expect(screen.getByText('Are you sure you want to delete Link 1?')).toBeInTheDocument();
     
+    // Click the confirm button
+    fireEvent.click(screen.getByText('Delete'));
+    
+    // Verify the delete request was made
     await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/links/1', expect.anything()));
   });
 
@@ -64,16 +64,20 @@ describe('ListContainer', () => {
     render(<ListContainer listId={listId} />);
     await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
     
-    // Cancel deletion
-    (window.confirm as any).mockReturnValueOnce(false);
-    
+    // Click delete button to open the modal
     fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
     
-    // Verify confirmation dialog was shown
-    expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to delete Link 1?');
+    // Verify confirmation modal shows
+    expect(screen.getByText('Are you sure you want to delete Link 1?')).toBeInTheDocument();
+    
+    // Click the cancel button
+    fireEvent.click(screen.getByText('Cancel'));
     
     // Ensure the fetch delete request was NOT made
     expect(fetch).not.toHaveBeenCalledWith('/api/links/1', expect.objectContaining({ method: 'DELETE' }));
+    
+    // Ensure modal is closed
+    expect(screen.queryByText('Are you sure you want to delete Link 1?')).not.toBeInTheDocument();
   });
 
   it('handles edit link', async () => {
