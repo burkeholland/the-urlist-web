@@ -36,6 +36,14 @@ export const PATCH: APIRoute = async ({ request, params }) => {
       [url, title, description, id]
     );
     
+    // Handle case where result.rows might be null or empty
+    if (!result.rows || result.rows.length === 0) {
+      return new Response(JSON.stringify({ error: 'Failed to update link' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
     return new Response(JSON.stringify(result.rows[0]), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
