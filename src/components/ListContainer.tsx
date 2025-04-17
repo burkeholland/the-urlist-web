@@ -63,11 +63,17 @@ export function ListContainer({ listId }: ListContainerProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Failed to update link');
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update link');
+      }
+      
       const updatedLink = await response.json();
       setLinks(links.map(link => link.id === linkId ? { ...link, ...updatedLink } : link));
     } catch (error) {
       console.error('Error updating link:', error);
+      alert(`Failed to update link: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 

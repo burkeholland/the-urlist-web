@@ -14,3 +14,37 @@ export const DELETE: APIRoute = async ({ params }) => {
     });
   }
 };
+
+export const PATCH: APIRoute = async ({ request, params }) => {
+  try {
+    const { id } = params;
+    const body = await request.json();
+    const { url, title, description } = body;
+    
+    // Check if link exists first
+    const checkResult = await client.query('SELECT id FROM links WHERE id = $1', [id]);
+    if (checkResult.rowCount === 0) {
+      return new Response(JSON.stringify({ error: 'Link not found' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    // Update the link
+    const result = await client.query(
+      'UPDATE links SET url = $1, title = $2, description = $3 WHERE id = $4 RETURNING *',
+      [url, title, description, id]
+    );
+    
+    return new Response(JSON.stringify(result.rows[0]), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error: any) {
+    console.error('Error updating link:', error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+};
