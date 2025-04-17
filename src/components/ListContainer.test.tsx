@@ -34,15 +34,45 @@ describe('ListContainer', () => {
     expect(screen.getByText('Link 2')).toBeInTheDocument();
   });
 
-  it('handles delete link', async () => {
+  it('handles delete link with confirmation', async () => {
     (fetch as any)
       .mockResolvedValueOnce({ ok: true, json: async () => ({ title: 'My List', description: '' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => links })
       .mockResolvedValueOnce({ ok: true });
+    
+    // Mock window.confirm to return true
+    const confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => true);
+    
     render(<ListContainer listId={listId} />);
     await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
     fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
+    
+    // Check if confirm was called with the right message
+    expect(confirmSpy).toHaveBeenCalledWith('Are you sure you want to delete Link 1?');
     await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/links/1', expect.anything()));
+    
+    confirmSpy.mockRestore();
+  });
+
+  it('cancels delete when confirmation is declined', async () => {
+    (fetch as any)
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ title: 'My List', description: '' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => links });
+    
+    // Mock window.confirm to return false
+    const confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => false);
+    
+    render(<ListContainer listId={listId} />);
+    await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
+    fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
+    
+    // Check if confirm was called
+    expect(confirmSpy).toHaveBeenCalled();
+    
+    // Verify the API was not called
+    expect(fetch).not.toHaveBeenCalledWith('/api/links/1', expect.objectContaining({ method: 'DELETE' }));
+    
+    confirmSpy.mockRestore();
   });
 
   it('handles edit link', async () => {

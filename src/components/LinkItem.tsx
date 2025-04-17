@@ -114,7 +114,11 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
               </svg>
             </button>
             <button
-              onClick={() => onDelete(id)}
+              onClick={() => {
+                if (window.confirm(`Are you sure you want to delete ${title || url}?`)) {
+                  onDelete(id);
+                }
+              }}
               className="p-2 text-gray-500 hover:text-[#F23005] 
                 hover:bg-gray-100 rounded-lg transition-all duration-300"
               aria-label="Delete link"
