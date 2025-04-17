@@ -13,27 +13,42 @@ export function ListContainer({ listId }: ListContainerProps) {
   const [description, setDescription] = useState('');
   const [links, setLinks] = useState<Link[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchListData = async () => {
     try {
       const response = await fetch(`/api/lists/${listId}`);
-      if (!response.ok) throw new Error('Failed to fetch list');
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('List not found');
+        }
+        throw new Error('Failed to fetch list');
+      }
       const data = await response.json();
       setTitle(data.title);
       setDescription(data.description);
+      setError(null);
     } catch (error) {
       console.error('Error fetching list:', error);
+      setError(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
 
   const fetchLinks = async () => {
     try {
       const response = await fetch(`/api/links?list_id=${listId}`);
-      if (!response.ok) throw new Error('Failed to fetch links');
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Links not found');
+        }
+        throw new Error('Failed to fetch links');
+      }
       const data = await response.json();
       setLinks(data);
+      setError(null);
     } catch (error) {
       console.error('Error fetching links:', error);
+      setError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -80,6 +95,15 @@ export function ListContainer({ listId }: ListContainerProps) {
           <div className="h-16 bg-[#15BFAE]/10 rounded-lg"></div>
           <div className="h-16 bg-[#15BFAE]/10 rounded-lg"></div>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 px-6 rounded-2xl border-2 border-red-200 text-red-600">
+        <p className="text-lg mb-2">Error: {error}</p>
+        <p className="text-sm">Please try again later or contact support if the problem persists.</p>
       </div>
     );
   }
