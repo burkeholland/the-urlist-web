@@ -63,7 +63,14 @@ export function ListContainer({ listId }: ListContainerProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Failed to update link');
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Link not found. It may have been deleted.');
+        }
+        throw new Error('Failed to update link');
+      }
+      
       const updatedLink = await response.json();
       setLinks(links.map(link => link.id === linkId ? { ...link, ...updatedLink } : link));
     } catch (error) {
