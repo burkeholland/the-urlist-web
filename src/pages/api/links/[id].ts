@@ -43,13 +43,17 @@ export const PATCH: APIRoute = async ({ params, request }) => {
         
         updatedData = {
           url,
-          title: title || metadata.title || url,
-          description: description || metadata.description || '',
+          title: title !== undefined ? title : metadata.title || url,
+          description: description !== undefined ? description : metadata.description || '',
           image: metadata.image || ''
         };
       } catch (error) {
         console.error('Error fetching metadata:', error);
-        updatedData = { url, title, description };
+        updatedData = { 
+          url,
+          title: title !== undefined ? title : undefined,
+          description: description !== undefined ? description : undefined
+        };
       }
     } else {
       // If only title or description is updated

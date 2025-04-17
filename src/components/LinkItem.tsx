@@ -91,17 +91,26 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
       bg-white hover:bg-gray-50
       border border-gray-200
       transition-all duration-300">
-      {image && (
-        <div className="flex-shrink-0">
+      <div className="flex-shrink-0">
+        {image ? (
           <img
             src={image}
             alt=""
             className="w-16 h-16 rounded-md object-cover border border-gray-100"
-            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              // Show fallback icon when image fails to load
+              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+            }}
             loading="lazy"
           />
+        ) : null}
+        <div className={`w-16 h-16 rounded-md border border-gray-100 flex items-center justify-center bg-gray-50 ${image ? 'hidden' : ''}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+          </svg>
         </div>
-      )}
+      </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <a
