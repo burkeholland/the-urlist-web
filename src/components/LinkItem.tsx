@@ -91,6 +91,17 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
       bg-white hover:bg-gray-50
       border border-gray-200
       transition-all duration-300">
+      {image && (
+        <div className="flex-shrink-0">
+          <img
+            src={image}
+            alt=""
+            className="w-16 h-16 rounded-md object-cover border border-gray-100"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            loading="lazy"
+          />
+        </div>
+      )}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <a
