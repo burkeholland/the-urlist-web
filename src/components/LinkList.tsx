@@ -16,6 +16,15 @@ export function LinkList({ listId }: LinkListProps) {
   }, [listId]);
 
   const handleDeleteLink = async (id: number) => {
+    // Find the link to get its title for the confirmation message
+    const linkToDelete = links.find(link => link.id === id);
+    const linkTitle = linkToDelete?.title || linkToDelete?.url || 'this link';
+    
+    // Show confirmation dialog
+    const confirmed = window.confirm(`Are you sure you want to delete ${linkTitle}?`);
+    
+    if (!confirmed) return; // Do nothing if user cancels
+    
     try {
       const response = await fetch(`/api/links/${id}`, {
         method: 'DELETE',

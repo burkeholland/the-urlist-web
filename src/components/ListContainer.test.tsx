@@ -2,6 +2,7 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { ListContainer } from './ListContainer';
 import React from 'react';
+import { vi } from 'vitest';
 
 global.fetch = vi.fn();
 
@@ -14,6 +15,8 @@ describe('ListContainer', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
+    // Mock window.confirm to return true by default
+    vi.spyOn(window, 'confirm').mockImplementation(() => true);
   });
 
   it('shows loading state initially', () => {
@@ -34,15 +37,43 @@ describe('ListContainer', () => {
     expect(screen.getByText('Link 2')).toBeInTheDocument();
   });
 
-  it('handles delete link', async () => {
+  it('handles delete link when confirmed', async () => {
     (fetch as any)
       .mockResolvedValueOnce({ ok: true, json: async () => ({ title: 'My List', description: '' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => links })
       .mockResolvedValueOnce({ ok: true });
     render(<ListContainer listId={listId} />);
     await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
+    
+    // Confirm deletion
+    (window.confirm as any).mockReturnValueOnce(true);
+    
     fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
+    
+    // Verify confirmation dialog was shown
+    expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to delete Link 1?');
+    
     await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/links/1', expect.anything()));
+  });
+
+  it('cancels delete link when not confirmed', async () => {
+    (fetch as any)
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ title: 'My List', description: '' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => links });
+    
+    render(<ListContainer listId={listId} />);
+    await waitFor(() => expect(screen.getByText('Link 1')).toBeInTheDocument());
+    
+    // Cancel deletion
+    (window.confirm as any).mockReturnValueOnce(false);
+    
+    fireEvent.click(screen.getAllByLabelText(/delete link/i)[0]);
+    
+    // Verify confirmation dialog was shown
+    expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to delete Link 1?');
+    
+    // Ensure the fetch delete request was NOT made
+    expect(fetch).not.toHaveBeenCalledWith('/api/links/1', expect.objectContaining({ method: 'DELETE' }));
   });
 
   it('handles edit link', async () => {
