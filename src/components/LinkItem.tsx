@@ -16,6 +16,7 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
   const [editTitle, setEditTitle] = useState(title);
   const [editDescription, setEditDescription] = useState(description);
   const [isFocused, setIsFocused] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const handleSave = () => {
     onEdit(id, {
@@ -24,6 +25,11 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
       description: editDescription
     });
     setIsEditing(false);
+  };
+  
+  const handleDelete = () => {
+    setShowDeleteDialog(false);
+    onDelete(id);
   };
 
   if (isEditing) {
@@ -87,52 +93,82 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit 
   }
 
   return (
-    <div className="group relative flex items-start gap-4 p-5 rounded-2xl 
-      bg-white hover:bg-gray-50
-      border border-gray-200
-      transition-all duration-300">
-      <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-4">
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg font-medium text-gray-900 hover:text-[#15BFAE] 
-              transition-colors duration-300 break-all"
+    <>
+      <div className="group relative flex items-start gap-4 p-5 rounded-2xl 
+        bg-white hover:bg-gray-50
+        border border-gray-200
+        transition-all duration-300">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-4">
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg font-medium text-gray-900 hover:text-[#15BFAE] 
+                transition-colors duration-300 break-all"
+            >
+              {title || url}
+            </a>
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="p-2 text-gray-500 hover:text-[#15BFAE] 
+                  hover:bg-gray-100 rounded-lg transition-all duration-300"
+                aria-label="Edit link"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setShowDeleteDialog(true)}
+                className="p-2 text-gray-500 hover:text-[#F23005] 
+                  hover:bg-gray-100 rounded-lg transition-all duration-300"
+                aria-label="Delete link"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          {description && (
+            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
+          )}
+        </div>
+      </div>
+      
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowDeleteDialog(false)}>
+          <div 
+            className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl transform transition-all"
+            onClick={(e) => e.stopPropagation()}
           >
-            {title || url}
-          </a>
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="p-2 text-gray-500 hover:text-[#15BFAE] 
-                hover:bg-gray-100 rounded-lg transition-all duration-300"
-              aria-label="Edit link"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-              </svg>
-            </button>
-            <button
-              onClick={() => {
-                if (window.confirm(`Are you sure you want to delete ${title || url}?`)) {
-                  onDelete(id);
-                }
-              }}
-              className="p-2 text-gray-500 hover:text-[#F23005] 
-                hover:bg-gray-100 rounded-lg transition-all duration-300"
-              aria-label="Delete link"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-            </button>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Confirm Deletion</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete <span className="font-medium">{title || url}</span>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowDeleteDialog(false)}
+                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200
+                  rounded-lg transition-all duration-300"
+                data-testid="cancel-delete"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 text-white bg-red-500 hover:bg-red-600
+                  rounded-lg transition-all duration-300"
+                data-testid="confirm-delete"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-        {description && (
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 }
