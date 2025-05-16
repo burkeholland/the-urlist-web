@@ -100,8 +100,17 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           aria-label="Drag to reorder"
           className="mr-2 cursor-grab active:cursor-grabbing p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
         >
-          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="14" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="14" r="1.5" fill="#A0AEC0"/></svg>
+          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="14" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="14" r="1.5" fill="#A0AEC0" /></svg>
         </button>
+      )}
+      {image && (
+        <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden">
+          <img
+            src={image}
+            alt={title || url}
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
