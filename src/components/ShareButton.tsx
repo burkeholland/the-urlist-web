@@ -25,17 +25,17 @@ export function ShareButton({ url }: ShareButtonProps) {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         className="group flex items-center gap-2 px-6 py-3 
-          bg-gray-50 hover:bg-gray-100
-          text-gray-700 font-medium rounded-xl
+          bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700
+          text-gray-700 dark:text-gray-200 font-medium rounded-xl
           transition-all duration-300 ease-out transform hover:-translate-y-0.5
-          border border-gray-200
+          border border-gray-200 dark:border-gray-700
           focus:outline-none focus:ring-2 focus:ring-[#15BFAE]/50"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
           className={`h-5 w-5 transition-transform duration-300 ease-out text-[#15BFAE]
-            ${isHovering ? 'scale-110 rotate-12' : ''}`} 
-          viewBox="0 0 20 20" 
+            ${isHovering ? 'scale-110 rotate-12' : ''}`}
+          viewBox="0 0 20 20"
           fill="currentColor"
         >
           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -51,8 +51,8 @@ export function ShareButton({ url }: ShareButtonProps) {
       {copied && (
         <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 
           px-4 py-2 rounded-xl text-sm font-medium
-          bg-white text-gray-700
-          border border-gray-200 shadow-sm
+          bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200
+          border border-gray-200 dark:border-gray-700 shadow-sm
           animate-scale-in"
         >
           <div className="flex items-center gap-2">

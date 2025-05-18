@@ -6,69 +6,65 @@ import { CreateList } from "../components/CreateList";
 <Layout>
   <main class="max-w-4xl mx-auto px-4 py-16">
     <div class="text-center mb-16 space-y-6">
-      <h1 class="text-6xl font-bold text-gray-900">
+      <h1 class="text-6xl font-bold text-gray-900 dark:text-gray-100">
         Share Your Links <span class="text-[#15BFAE]">Simply</span>
       </h1>
-      <p class="text-xl text-gray-600">
-        Create and share collections of links with a beautiful, easy-to-share URL.
+      <p class="text-xl text-gray-600 dark:text-gray-300">
+        Create and share collections of links with a beautiful, easy-to-share
+        URL.
       </p>
     </div>
 
     <div
-      class="bg-white rounded-2xl shadow-sm p-8 mb-16
-      border border-gray-200"
+      class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-16
+      border border-gray-200 dark:border-gray-700"
     >
       <CreateList client:load />
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
       <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
+        class="group bg-white dark:bg-gray-800 p-8 rounded-xl border border-gray-200 dark:border-gray-700
+        hover:border-[#15BFAE]/30 dark:hover:border-[#15BFAE]/50 transition-all duration-300 hover:-translate-y-1"
       >
         <div
           class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
         >
           ✨
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Easy to Use
-        </h3>
-        <p class="text-gray-600">
+        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">Easy to Use</h3>
+        <p class="text-gray-600 dark:text-gray-300">
           Just enter a title, add your links, and share your list with anyone.
         </p>
       </div>
 
       <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
+        class="group bg-white dark:bg-gray-800 p-8 rounded-xl border border-gray-200 dark:border-gray-700
+        hover:border-[#15BFAE]/30 dark:hover:border-[#15BFAE]/50 transition-all duration-300 hover:-translate-y-1"
       >
         <div
           class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
         >
           🔍
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Rich Previews
-        </h3>
-        <p class="text-gray-600">
-          Links automatically show titles, descriptions, and images from the original content.
+        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">Rich Previews</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Links automatically show titles, descriptions, and images from the
+          original content.
         </p>
       </div>
 
       <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
+        class="group bg-white dark:bg-gray-800 p-8 rounded-xl border border-gray-200 dark:border-gray-700
+        hover:border-[#15BFAE]/30 dark:hover:border-[#15BFAE]/50 transition-all duration-300 hover:-translate-y-1"
       >
         <div
           class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
         >
           🔗
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Custom URLs
-        </h3>
-        <p class="text-gray-600">
+        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">Custom URLs</h3>
+        <p class="text-gray-600 dark:text-gray-300">
           Choose a custom URL for your list or let us generate one for you.
         </p>
       </div>

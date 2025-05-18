@@ -104,10 +104,10 @@ export function ListContainer({ listId }: ListContainerProps) {
   if (isLoading) {
     return (
       <div className="animate-pulse space-y-8">
-        <div className="h-24 bg-[#15BFAE]/10 rounded-lg"></div>
+        <div className="h-24 bg-[#15BFAE]/10 dark:bg-[#15BFAE]/20 rounded-lg"></div>
         <div className="space-y-4">
-          <div className="h-16 bg-[#15BFAE]/10 rounded-lg"></div>
-          <div className="h-16 bg-[#15BFAE]/10 rounded-lg"></div>
+          <div className="h-16 bg-[#15BFAE]/10 dark:bg-[#15BFAE]/20 rounded-lg"></div>
+          <div className="h-16 bg-[#15BFAE]/10 dark:bg-[#15BFAE]/20 rounded-lg"></div>
         </div>
       </div>
     );
@@ -155,8 +155,8 @@ export function ListContainer({ listId }: ListContainerProps) {
   return (
     <div className="space-y-8 animate-fade-in max-w-4xl mx-auto w-full">
       <div className="flex flex-wrap gap-4 items-center justify-between py-2">
-        <span className="text-gray-600 text-sm font-medium px-4 py-2 \
-          bg-gray-50 rounded-xl border border-gray-200">
+        <span className="text-gray-600 dark:text-gray-300 text-sm font-medium px-4 py-2 \
+          bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
           {links.length} {links.length === 1 ? 'link' : 'links'}
         </span>
       </div>
@@ -175,7 +175,7 @@ export function ListContainer({ listId }: ListContainerProps) {
               ))
             ) : (
               <div className="text-center py-12 px-6 rounded-2xl border-2 border-dashed \
-                border-[#15BFAE]/20 text-gray-500">
+                border-[#15BFAE]/20 dark:border-[#15BFAE]/40 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900">
                 <p className="text-lg mb-2">No links yet</p>
                 <p className="text-sm">Add your first link using the form above</p>
               </div>

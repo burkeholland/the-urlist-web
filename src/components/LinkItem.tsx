@@ -29,16 +29,16 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
 
   if (isEditing) {
     return (
-      <div className="bg-white rounded-2xl p-6 space-y-4 
-        border border-gray-200 shadow-sm animate-fade-in">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4 
+        border border-gray-200 dark:border-gray-700 shadow-sm animate-fade-in">
         <input
           type="url"
           value={editUrl}
           onChange={(e) => setEditUrl(e.currentTarget.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
+          className="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20
             transition-all duration-300"
           placeholder="URL"
@@ -49,8 +49,8 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           onChange={(e) => setEditTitle(e.currentTarget.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
+          className="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20
             transition-all duration-300"
           placeholder="Title (optional)"
@@ -60,8 +60,8 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           onChange={(e) => setEditDescription(e.currentTarget.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
+          className="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20
             transition-all duration-300 resize-none"
           placeholder="Description (optional)"
@@ -70,7 +70,7 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
         <div className="flex justify-end gap-3">
           <button
             onClick={() => setIsEditing(false)}
-            className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200
+            className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700
               rounded-lg transition-all duration-300"
           >
             Cancel
@@ -89,8 +89,8 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
 
   return (
     <div className="group relative flex items-start gap-4 p-5 rounded-2xl 
-      bg-white hover:bg-gray-50
-      border border-gray-200
+      bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700
+      border border-gray-200 dark:border-gray-700
       transition-all duration-300">
       {/* Drag handle if provided */}
       {dragHandleProps && (
@@ -100,16 +100,30 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           aria-label="Drag to reorder"
           className="mr-2 cursor-grab active:cursor-grabbing p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
         >
-          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="14" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="14" r="1.5" fill="#A0AEC0"/></svg>
+          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="14" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="14" r="1.5" fill="#A0AEC0" /></svg>
         </button>
       )}
+      {/* Open Graph image preview */}
+      <div className="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+        {image ? (
+          <img
+            src={image}
+            alt={title || url}
+            className="object-cover w-full h-full"
+            loading="lazy"
+            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+        ) : (
+          <span className="text-gray-300 dark:text-gray-700 text-2xl">🔗</span>
+        )}
+      </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <a
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-lg font-medium text-gray-900 hover:text-[#15BFAE] 
+            className="text-lg font-medium text-gray-900 dark:text-gray-100 hover:text-[#15BFAE] dark:hover:text-[#15BFAE] 
               transition-colors duration-300 break-all"
           >
             {title || url}
@@ -138,7 +152,7 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           </div>
         </div>
         {description && (
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{description}</p>
         )}
       </div>
     </div>

@@ -7,11 +7,11 @@ interface ToastProps {
   onClose?: () => void;
 }
 
-export function Toast({ 
-  message, 
-  type = 'success', 
-  duration = 3000, 
-  onClose 
+export function Toast({
+  message,
+  type = 'success',
+  duration = 3000,
+  onClose
 }: ToastProps) {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -29,10 +29,10 @@ export function Toast({
   return (
     <div
       className={`fixed bottom-4 right-4 px-6 py-3
-        bg-white rounded-xl shadow-lg
-        border ${type === 'error' ? 'border-[#F23005]' : 'border-[#15BFAE]'}
+        bg-white dark:bg-gray-900 rounded-xl shadow-lg
+        border ${type === 'error' ? 'border-[#F23005]' : 'border-[#15BFAE]'} dark:border-gray-700
         transform transition-all duration-300 ease-out
-        ${type === 'error' ? 'text-[#F23005]' : 'text-[#15BFAE]'}
+        ${type === 'error' ? 'text-[#F23005]' : 'text-[#15BFAE]'} dark:text-gray-200
         animate-scale-in
       `}
       role="alert"

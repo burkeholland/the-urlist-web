@@ -19,7 +19,7 @@ if (!list) {
 // Get the first few links for meta description
 const linksResult = await client.query(
   "SELECT title FROM links WHERE list_id = $1 ORDER BY created_at DESC LIMIT 3",
-  [list.id]
+  [list.id],
 );
 const linkTitles = linksResult.rows.map((row) => row.title).filter(Boolean);
 const metaDescription =
@@ -37,11 +37,25 @@ function handleListDeleted() {
     <header class="mb-8">
       <div class="flex flex-col md:flex-row justify-between items-start gap-6">
         <div class="space-y-4 w-full">
-          <h1 class="text-4xl sm:text-5xl font-bold text-gray-900">{list.title}</h1>
-          {list.description && <p class="text-lg text-gray-600">{list.description}</p>}
+          <h1
+            class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100"
+          >
+            {list.title}
+          </h1>
+          {
+            list.description && (
+              <p class="text-lg text-gray-600 dark:text-gray-300">
+                {list.description}
+              </p>
+            )
+          }
           <div class="flex items-center gap-4 flex-wrap">
             <ShareButton client:load url={Astro.url.href} />
-            <DeleteListButton client:load listId={list.id} onDeleted={handleListDeleted} />
+            <DeleteListButton
+              client:load
+              listId={list.id}
+              onDeleted={handleListDeleted}
+            />
           </div>
         </div>
       </div>

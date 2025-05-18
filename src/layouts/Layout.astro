@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { DarkModeToggle } from "../components/DarkModeToggle";
 
 interface Props {
   title?: string;
@@ -48,15 +49,15 @@ const canonicalURL = new URL(
     />
   </head>
   <body
-    class="flex min-h-screen flex-col bg-white text-gray-900 relative overflow-x-hidden antialiased"
+    class="flex min-h-screen flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative overflow-x-hidden antialiased"
   >
     <!-- Subtle gradient accents -->
     <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.05),transparent_70%)]"
+      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.10),transparent_70%)]"
     >
     </div>
     <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.05),transparent_70%)]"
+      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.10),transparent_70%)]"
     >
     </div>
 
@@ -64,7 +65,7 @@ const canonicalURL = new URL(
       class="sticky top-0 z-20 backdrop-blur-lg border-b border-[#15BFAE]/10"
     >
       <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
+        class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center"
       >
         <a
           href="/"
@@ -73,30 +74,32 @@ const canonicalURL = new URL(
           <img src="/favicon.svg" alt="" class="w-6 h-6" />
           The Urlist
         </a>
-        <div class="ml-8 flex-1">
-          <ul class="flex gap-6 justify-center">
+        <div class="flex-1"></div>
+        <div class="flex items-center gap-6">
+          <ul class="flex gap-6">
             <li>
               <a
                 href="/"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-700 dark:text-gray-200 hover:text-[#15BFAE] dark:hover:text-[#15BFAE] font-medium transition-colors duration-200"
                 >My Lists</a
               >
             </li>
             <li>
               <a
                 href="/about"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-700 dark:text-gray-200 hover:text-[#15BFAE] dark:hover:text-[#15BFAE] font-medium transition-colors duration-200"
                 >About</a
               >
             </li>
             <li>
               <a
                 href="/terms"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-700 dark:text-gray-200 hover:text-[#15BFAE] dark:hover:text-[#15BFAE] font-medium transition-colors duration-200"
                 >Terms</a
               >
             </li>
           </ul>
+          <DarkModeToggle client:load />
         </div>
       </div>
     </nav>
@@ -111,7 +114,7 @@ const canonicalURL = new URL(
       class="relative z-10 py-8 backdrop-blur-lg border-t border-[#15BFAE]/10 mt-auto"
     >
       <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600"
+        class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600 dark:text-gray-400"
       >
         <p>
           &copy; {new Date().getFullYear()} The Urlist. Share your links with the

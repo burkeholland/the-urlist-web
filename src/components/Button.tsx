@@ -9,9 +9,9 @@ interface ButtonProps {
   isLoading?: boolean;
 }
 
-export function Button({ 
-  children, 
-  onClick, 
+export function Button({
+  children,
+  onClick,
   variant = 'primary',
   type = 'button',
   disabled = false,
@@ -33,26 +33,27 @@ export function Button({
       text-white shadow-sm
       focus:ring-[#15BFAE]/50
       hover:shadow-lg hover:shadow-[#15BFAE]/20
+      dark:from-[#15BFAE] dark:to-[#13B0A0] dark:hover:from-[#13B0A0] dark:hover:to-[#03A678]
     `,
     secondary: `
-      bg-gray-100 hover:bg-gray-200
-      text-gray-700 hover:text-gray-900
-      border border-gray-200
-      focus:ring-gray-300
-      hover:border-gray-300
+      bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700
+      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100
+      border border-gray-200 dark:border-gray-700
+      focus:ring-gray-300 dark:focus:ring-gray-600
+      hover:border-gray-300 dark:hover:border-gray-600
     `,
     destructive: `
-      bg-white hover:bg-red-50
-      text-red-600 hover:text-red-700
-      border-2 border-red-200 hover:border-red-300
-      focus:ring-red-200
-      hover:shadow-lg hover:shadow-red-100
+      bg-white dark:bg-gray-900 hover:bg-red-50 dark:hover:bg-red-900
+      text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300
+      border-2 border-red-200 dark:border-red-400 hover:border-red-300 dark:hover:border-red-500
+      focus:ring-red-200 dark:focus:ring-red-700
+      hover:shadow-lg hover:shadow-red-100 dark:hover:shadow-red-900
     `
   };
 
-  const spinnerColor = variant === 'destructive' ? 'text-red-600' : 
-                      variant === 'secondary' ? 'text-gray-700' : 
-                      'text-white';
+  const spinnerColor = variant === 'destructive' ? 'text-red-600 dark:text-red-400' :
+    variant === 'secondary' ? 'text-gray-700 dark:text-gray-200' :
+      'text-white';
 
   return (
     <button

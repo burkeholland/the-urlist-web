@@ -67,8 +67,8 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder="Enter a URL to add to your list"
-              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-                text-gray-900 placeholder-gray-500
+              className="w-full px-6 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl
+                text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
                 focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
                 transition-all duration-300"
               required
