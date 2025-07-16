@@ -18,21 +18,33 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
 
-    let { url, list_id } = body;
+    let { url, list_id, metadata } = body;
     url = sanitizeUrl(url);
 
-    // Fetch metadata
-    const response = await fetch(url);
-    const html = await response.text();
-    const metadata = await scraper({ html, url });
+    // If metadata is provided, use it; otherwise fallback to basic metadata fetching
+    let finalMetadata = metadata;
+    if (!finalMetadata) {
+      try {
+        const response = await fetch(url);
+        const html = await response.text();
+        finalMetadata = await scraper({ html, url });
+      } catch (error) {
+        console.warn('Failed to fetch metadata, using fallback:', error);
+        finalMetadata = {
+          title: url,
+          description: '',
+          image: ''
+        };
+      }
+    }
 
     const result = await client.query(
       'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [
-        metadata.title || url,
-        metadata.description || '',
+        finalMetadata.title || url,
+        finalMetadata.description || '',
         url,
-        metadata.image || '',
+        finalMetadata.image || '',
         list_id
       ]
     );
