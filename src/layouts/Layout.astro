@@ -47,76 +47,64 @@ const canonicalURL = new URL(
       rel="stylesheet"
     />
   </head>
-  <body
-    class="flex min-h-screen flex-col bg-white text-gray-900 relative overflow-x-hidden antialiased"
-  >
-    <!-- Subtle gradient accents -->
-    <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.05),transparent_70%)]"
-    >
-    </div>
-    <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.05),transparent_70%)]"
-    >
-    </div>
-
-    <nav
-      class="sticky top-0 z-20 backdrop-blur-lg border-b border-[#15BFAE]/10"
-    >
-      <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
-      >
-        <a
-          href="/"
-          class="text-xl font-bold text-[#03A678] hover:text-[#15BFAE] transition-all duration-300 flex items-center gap-2"
-        >
-          <img src="/favicon.svg" alt="" class="w-6 h-6" />
-          The Urlist
-        </a>
-        <div class="ml-8 flex-1">
-          <ul class="flex gap-6 justify-center">
-            <li>
-              <a
-                href="/"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
-                >My Lists</a
-              >
-            </li>
-            <li>
-              <a
-                href="/about"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
-                >About</a
-              >
-            </li>
-            <li>
-              <a
-                href="/terms"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
-                >Terms</a
-              >
-            </li>
-          </ul>
+  <body class="h-full bg-white text-gray-900 antialiased">
+    <!-- Clean, minimal navigation -->
+    <nav class="border-b border-gray-100 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a href="/" class="flex items-center space-x-2">
+              <img src="/favicon.svg" alt="" class="w-6 h-6" />
+              <span class="text-xl font-semibold text-gray-900">The Urlist</span>
+            </a>
+          </div>
+          <div class="hidden md:block">
+            <div class="flex items-baseline space-x-8">
+              <a href="/" class="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+              <a href="/about" class="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">About</a>
+              <a href="/terms" class="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Terms</a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
 
-    <main class="flex-grow relative z-10">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <slot />
-      </div>
+    <main>
+      <slot />
     </main>
 
-    <footer
-      class="relative z-10 py-8 backdrop-blur-lg border-t border-[#15BFAE]/10 mt-auto"
-    >
-      <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600"
-      >
-        <p>
-          &copy; {new Date().getFullYear()} The Urlist. Share your links with the
-          world.
-        </p>
+    <footer class="border-t border-gray-100 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center space-x-2 mb-4">
+              <img src="/favicon.svg" alt="" class="w-6 h-6" />
+              <span class="text-lg font-semibold text-gray-900">The Urlist</span>
+            </div>
+            <p class="text-gray-600 text-sm max-w-md">
+              Create and share beautiful collections of links with a simple, memorable URL.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">Product</h3>
+            <ul class="space-y-2">
+              <li><a href="/" class="text-sm text-gray-600 hover:text-gray-900">Home</a></li>
+              <li><a href="/about" class="text-sm text-gray-600 hover:text-gray-900">About</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">Support</h3>
+            <ul class="space-y-2">
+              <li><a href="/terms" class="text-sm text-gray-600 hover:text-gray-900">Terms</a></li>
+              <li><a href="/privacy" class="text-sm text-gray-600 hover:text-gray-900">Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-200 mt-8 pt-8">
+          <p class="text-sm text-gray-500 text-center">
+            &copy; {new Date().getFullYear()} The Urlist. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   </body>

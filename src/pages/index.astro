@@ -1,77 +1,28 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { CreateList } from "../components/CreateList";
+import Layout from '../layouts/Layout.astro';
+import { HeroSection } from '../components/HeroSection.tsx';
+import { FeaturesSection } from '../components/FeaturesSection.tsx';
+import CreateList from '../components/CreateList.tsx';
 ---
 
-<Layout>
-  <main class="max-w-4xl mx-auto px-4 py-16">
-    <div class="text-center mb-16 space-y-6">
-      <h1 class="text-6xl font-bold text-gray-900">
-        Share Your Links <span class="text-[#15BFAE]">Simply</span>
-      </h1>
-      <p class="text-xl text-gray-600">
-        Create and share collections of links with a beautiful, easy-to-share URL.
-      </p>
-    </div>
-
-    <div
-      class="bg-white rounded-2xl shadow-sm p-8 mb-16
-      border border-gray-200"
-    >
-      <CreateList client:load />
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-8">
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          ✨
-        </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Easy to Use
-        </h3>
-        <p class="text-gray-600">
-          Just enter a title, add your links, and share your list with anyone.
-        </p>
-      </div>
-
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          🔍
-        </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Rich Previews
-        </h3>
-        <p class="text-gray-600">
-          Links automatically show titles, descriptions, and images from the original content.
-        </p>
-      </div>
-
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          🔗
-        </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Custom URLs
-        </h3>
-        <p class="text-gray-600">
-          Choose a custom URL for your list or let us generate one for you.
-        </p>
-      </div>
-    </div>
-  </main>
+<Layout title="The Urlist">
+	<main>
+		<HeroSection client:load />
+		<FeaturesSection client:load />
+		
+		<section id="create-list" class="py-20 bg-white">
+			<div class="container mx-auto px-4">
+				<div class="text-center mb-12">
+					<h2 class="text-4xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
+					<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+						Create your first list and start sharing your curated links with the world
+					</p>
+				</div>
+				
+				<div class="max-w-2xl mx-auto">
+					<CreateList client:load />
+				</div>
+			</div>
+		</section>
+	</main>
 </Layout>

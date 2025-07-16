@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from './Button';
+import { motion } from 'framer-motion';
 
 export function CreateList() {
   const [title, setTitle] = useState('');
@@ -7,7 +7,6 @@ export function CreateList() {
   const [slug, setSlug] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [focusedInput, setFocusedInput] = useState<'title' | 'slug' | 'description' | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,79 +40,94 @@ export function CreateList() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto w-full p-4">
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600">
-          {error}
-        </div>
-      )}
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'title' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <input
-          type="text"
-          placeholder="Enter a title for your list"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onFocus={() => setFocusedInput('title')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500 text-lg
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300"
-          required
-        />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="w-full max-w-md mx-auto"
+    >
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+          Create New List
+        </h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+          
+          <div>
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+              List Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter a title for your list"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+              Custom URL (Optional)
+            </label>
+            <input
+              type="text"
+              id="slug"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              placeholder="my-awesome-list"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              Description (Optional)
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Add a description for your list"
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            />
+          </div>
+          
+          <button
+            type="submit"
+            disabled={isSubmitting || !title.trim()}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
+          >
+            {isSubmitting ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                Creating List...
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                </svg>
+                Create List
+              </>
+            )}
+          </button>
+        </form>
       </div>
-
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'slug' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <input
-          type="text"
-          placeholder="Custom URL (optional)"
-          value={slug}
-          onChange={(e) => setSlug(e.target.value)}
-          onFocus={() => setFocusedInput('slug')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300"
-        />
-      </div>
-
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'description' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <textarea
-          placeholder="Add a description (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          onFocus={() => setFocusedInput('description')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300
-            min-h-[120px] resize-y"
-        />
-      </div>
-
-      <div className="flex justify-end pt-4">
-        <Button type="submit" isLoading={isSubmitting}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
-          <span className="hidden sm:inline">{isSubmitting ? 'Creating List...' : 'Create List'}</span>
-          <span className="sm:hidden">Create</span>
-        </Button>
-      </div>
-    </form>
+    </motion.div>
   );
 }
+
+export default CreateList;

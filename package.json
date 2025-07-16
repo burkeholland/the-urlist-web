@@ -24,8 +24,10 @@
     "@types/react-dom": "^19.1.1",
     "astro": "^5.6.1",
     "canvas-confetti": "^1.9.3",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.41.0",
+    "framer-motion": "^12.23.5",
     "metascraper": "^5.46.11",
     "metascraper-description": "^5.46.11",
     "metascraper-image": "^5.46.11",
@@ -37,6 +39,7 @@
     "preact": "^10.26.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.3"
   },
   "devDependencies": {

@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
-import { Button } from './Button';
 import type { FormEvent } from 'react';
 import { currentLinks } from '../stores/lists';
 import { sanitizeUrl } from '../utils/validation';
+import { motion } from 'framer-motion';
 
 interface AddLinkProps {
   listId: number;
@@ -12,7 +12,6 @@ interface AddLinkProps {
 export function AddLink({ listId, onAdd }: AddLinkProps) {
   const [url, setUrl] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -47,47 +46,52 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${isFocused ? 'opacity-100' : 'group-hover:opacity-100'}`}
-        />
-        <div className="relative flex gap-3">
-          <div className="flex-1">
-            <input
-              ref={inputRef}
-              type="text"
-              inputMode="url"
-              autoCorrect="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder="Enter a URL to add to your list"
-              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-                text-gray-900 placeholder-gray-500
-                focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-                transition-all duration-300"
-              required
-            />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="mb-8"
+    >
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+        <form onSubmit={handleSubmit}>
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                inputMode="url"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="Enter a URL to add to your list"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                  Adding...
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                  </svg>
+                  Add Link
+                </>
+              )}
+            </button>
           </div>
-          <Button type="submit" isLoading={isSubmitting}>
-            {isSubmitting ? (
-              'Adding...'
-            ) : (
-              <>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-                </svg>
-                Add Link
-              </>
-            )}
-          </Button>
-        </div>
+        </form>
       </div>
-    </form>
+    </motion.div>
   );
 }

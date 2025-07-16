@@ -33,20 +33,28 @@ function handleListDeleted() {
 ---
 
 <Layout title={`${list.title} - The Urlist`} description={metaDescription}>
-  <main class="max-w-4xl mx-auto py-8 px-4">
-    <header class="mb-8">
-      <div class="flex flex-col md:flex-row justify-between items-start gap-6">
-        <div class="space-y-4 w-full">
-          <h1 class="text-4xl sm:text-5xl font-bold text-gray-900">{list.title}</h1>
-          {list.description && <p class="text-lg text-gray-600">{list.description}</p>}
-          <div class="flex items-center gap-4 flex-wrap">
-            <ShareButton client:load url={Astro.url.href} />
-            <DeleteListButton client:load listId={list.id} onDeleted={handleListDeleted} />
-          </div>
+  <main class="min-h-screen bg-gray-50">
+    <!-- Hero section -->
+    <div class="py-20 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+          {list.title}
+        </h1>
+        {list.description && (
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            {list.description}
+          </p>
+        )}
+        <div class="flex items-center justify-center gap-4 flex-wrap">
+          <ShareButton client:load url={Astro.url.href} />
+          <DeleteListButton client:load listId={list.id} onDeleted={handleListDeleted} />
         </div>
       </div>
-    </header>
+    </div>
 
-    <ListContainer client:load listId={list.id} />
+    <!-- Links section -->
+    <div class="max-w-4xl mx-auto px-4 pb-20">
+      <ListContainer client:load listId={list.id} />
+    </div>
   </main>
 </Layout>
