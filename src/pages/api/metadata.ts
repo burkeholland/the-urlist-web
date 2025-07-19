@@ -3,7 +3,7 @@ import metascraper from 'metascraper';
 import metascraperTitle from 'metascraper-title';
 import metascraperDescription from 'metascraper-description';
 import metascraperImage from 'metascraper-image';
-import fetch from 'node-fetch';
+import { fetchWithTimeout } from '../../utils/fetch';
 
 const scraper = metascraper([
   metascraperTitle(),
@@ -11,20 +11,7 @@ const scraper = metascraper([
   metascraperImage()
 ]);
 
-// Helper function to add timeout to fetch
-async function fetchWithTimeout(url: string, timeout = 5000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
 
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(id);
-    return response;
-  } catch (error) {
-    clearTimeout(id);
-    throw error;
-  }
-}
 
 // Generate a basic metadata object from URL
 function generateFallbackMetadata(url: string) {
