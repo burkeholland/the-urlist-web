@@ -26,10 +26,10 @@ async function fetchWithTimeoutAndRetry(url: string, timeout = 10000, maxRetries
   let lastError;
   
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    
     try {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), timeout);
-
       const response = await fetch(url, {
         signal: controller.signal,
         headers: BROWSER_HEADERS,
@@ -44,7 +44,8 @@ async function fetchWithTimeoutAndRetry(url: string, timeout = 10000, maxRetries
       }
       
       return response;
-    } catch (error) {
+    } catch (error: any) {
+      clearTimeout(id);
       lastError = error;
       
       // Don't retry on abort (timeout) or 4xx errors
@@ -95,7 +96,7 @@ export async function fetchMetadata(targetUrl: string) {
       description: metadata.description || fallback.description,
       image: metadata.image || fallback.image
     };
-  } catch (error) {
+  } catch (error: any) {
     // If fetching fails, return fallback metadata
     console.warn(`Failed to fetch metadata for ${targetUrl}:`, error.message);
     return generateFallbackMetadata(targetUrl);
