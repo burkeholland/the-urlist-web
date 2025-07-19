@@ -23,11 +23,24 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
 
     setIsSubmitting(true);
     try {
+      // First, fetch metadata for the URL
+      const metadataResponse = await fetch(`/api/metadata?url=${encodeURIComponent(normalizedUrl)}`);
+      
+      if (!metadataResponse.ok) {
+        throw new Error('Failed to fetch metadata');
+      }
+      
+      const metadata = await metadataResponse.json();
 
+      // Then create the link with the metadata
       const response = await fetch('/api/links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: normalizedUrl, list_id: listId })
+        body: JSON.stringify({ 
+          url: normalizedUrl, 
+          list_id: listId,
+          metadata: metadata
+        })
       });
 
       if (!response.ok) {
