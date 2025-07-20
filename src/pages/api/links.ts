@@ -53,17 +53,21 @@ export const POST: APIRoute = async ({ request }) => {
 export const GET: APIRoute = async ({ url }) => {
   try {
     const listId = url.searchParams.get('list_id');
+    const groupId = url.searchParams.get('group_id');
     if (!listId) {
       return new Response(JSON.stringify({ error: 'list_id is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-    // Order by position if present, else by created_at
-    const result = await client.query(
-      'SELECT * FROM links WHERE list_id = $1 ORDER BY COALESCE(position, 999999), created_at ASC',
-      [Number(listId)]
-    );
+    let query = 'SELECT * FROM links WHERE list_id = $1';
+    const params: any[] = [Number(listId)];
+    if (groupId !== null && groupId !== undefined) {
+      query += ' AND group_id = $2';
+      params.push(Number(groupId));
+    }
+    query += ' ORDER BY COALESCE(position, 999999), created_at ASC';
+    const result = await client.query(query, params);
     return new Response(JSON.stringify(result.rows), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
