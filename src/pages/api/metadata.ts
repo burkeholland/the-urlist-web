@@ -3,28 +3,13 @@ import metascraper from 'metascraper';
 import metascraperTitle from 'metascraper-title';
 import metascraperDescription from 'metascraper-description';
 import metascraperImage from 'metascraper-image';
-import fetch from 'node-fetch';
+import { fetchWithTimeout } from '../../utils/fetch';
 
 const scraper = metascraper([
   metascraperTitle(),
   metascraperDescription(),
   metascraperImage()
 ]);
-
-// Helper function to add timeout to fetch
-async function fetchWithTimeout(url: string, timeout = 5000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(id);
-    return response;
-  } catch (error) {
-    clearTimeout(id);
-    throw error;
-  }
-}
 
 // Generate a basic metadata object from URL
 function generateFallbackMetadata(url: string) {
@@ -47,6 +32,7 @@ function generateFallbackMetadata(url: string) {
 export const GET: APIRoute = async ({ url }) => {
   try {
     const targetUrl = url.searchParams.get('url');
+    const debug = url.searchParams.get('debug') === 'true';
     
     if (!targetUrl) {
       return new Response(JSON.stringify({ error: 'URL parameter is required' }), {
@@ -58,7 +44,21 @@ export const GET: APIRoute = async ({ url }) => {
     try {
       const response = await fetchWithTimeout(targetUrl);
       const html = await response.text();
-      const metadata = await scraper({ html, url: targetUrl });
+      
+      // Debug logging when requested
+      if (debug) {
+        console.log(`[Metadata Debug] URL: ${targetUrl}`);
+        console.log(`[Metadata Debug] Final URL: ${response.url}`);
+        console.log(`[Metadata Debug] Status: ${response.status}`);
+        console.log(`[Metadata Debug] HTML length: ${html.length}`);
+        console.log(`[Metadata Debug] HTML preview: ${html.substring(0, 500)}...`);
+      }
+      
+      const metadata = await scraper({ html, url: response.url || targetUrl });
+
+      if (debug) {
+        console.log(`[Metadata Debug] Scraped metadata:`, metadata);
+      }
 
       // If metadata is incomplete, merge with fallback data
       const fallback = generateFallbackMetadata(targetUrl);
@@ -68,11 +68,17 @@ export const GET: APIRoute = async ({ url }) => {
         image: metadata.image || fallback.image
       };
 
+      if (debug) {
+        console.log(`[Metadata Debug] Final metadata:`, finalMetadata);
+      }
+
       return new Response(JSON.stringify(finalMetadata), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
     } catch (fetchError) {
+      console.error(`[Metadata Error] Failed to fetch ${targetUrl}:`, fetchError);
+      
       // If fetching fails, return fallback metadata
       const fallback = generateFallbackMetadata(targetUrl);
       return new Response(JSON.stringify(fallback), {
@@ -81,6 +87,8 @@ export const GET: APIRoute = async ({ url }) => {
       });
     }
   } catch (error: any) {
+    console.error(`[Metadata Error] General error:`, error);
+    
     const isTimeout = error.name === 'AbortError';
     const status = isTimeout ? 504 : 500;
     const message = isTimeout ? 'Request timed out' : error.message;
