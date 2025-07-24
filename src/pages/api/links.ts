@@ -1,12 +1,12 @@
 
 import type { APIRoute } from 'astro';
 import { client } from '../../utils/db';
-import fetch from 'node-fetch';
 import metascraper from 'metascraper';
 import metascraperTitle from 'metascraper-title';
 import metascraperDescription from 'metascraper-description';
 import metascraperImage from 'metascraper-image';
 import { sanitizeUrl } from '../../utils/validation';
+import { fetchWithTimeout } from '../../utils/fetch';
 
 const scraper = metascraper([
   metascraperTitle(),
@@ -21,10 +21,10 @@ export const POST: APIRoute = async ({ request }) => {
     let { url, list_id } = body;
     url = sanitizeUrl(url);
 
-    // Fetch metadata
-    const response = await fetch(url);
+    // Fetch metadata with improved headers and timeout
+    const response = await fetchWithTimeout(url);
     const html = await response.text();
-    const metadata = await scraper({ html, url });
+    const metadata = await scraper({ html, url: response.url || url });
 
     const result = await client.query(
       'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
