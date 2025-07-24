@@ -1,5 +1,7 @@
 # The Urlist - AI Coding Guide
 
+The application is already running on port 4321. You do not need to start it again.
+
 **Link sharing application built with Astro + React + Postgres**
 
 *Owner: burkeholland | Server-side rendered | Native Postgres (no ORM)*
