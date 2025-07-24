@@ -21,26 +21,67 @@ export const POST: APIRoute = async ({ request }) => {
     let { url, list_id } = body;
     url = sanitizeUrl(url);
 
-    // Fetch metadata
-    const response = await fetch(url);
-    const html = await response.text();
-    const metadata = await scraper({ html, url });
+    // Fetch metadata with proper redirect handling
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
-    const result = await client.query(
-      'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [
-        metadata.title || url,
-        metadata.description || '',
-        url,
-        metadata.image || '',
-        list_id
-      ]
-    );
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        redirect: 'follow',
+        follow: 20, // Allow up to 20 redirects
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; The-Urlist-Bot/1.0)'
+        }
+      });
+      clearTimeout(timeout);
+      
+      const html = await response.text();
+      const finalUrl = response.url || url; // Use final redirect URL for scraping
+      const metadata = await scraper({ html, url: finalUrl });
 
-    return new Response(JSON.stringify(result.rows[0]), {
-      status: 201,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      console.log(`Metadata scraped for ${url} -> ${finalUrl}:`, {
+        title: metadata.title,
+        description: metadata.description?.substring(0, 100),
+        image: metadata.image
+      });
+
+      const result = await client.query(
+        'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [
+          metadata.title || url,
+          metadata.description || '',
+          url, // Store original URL
+          metadata.image || '',
+          list_id
+        ]
+      );
+
+      return new Response(JSON.stringify(result.rows[0]), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (fetchError: any) {
+      clearTimeout(timeout);
+      console.error(`Failed to fetch metadata for ${url}:`, fetchError.message);
+      
+      // If metadata fetching fails, still create the link with basic info
+      const result = await client.query(
+        'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [
+          url, // Use URL as title fallback
+          '',
+          url,
+          '',
+          list_id
+        ]
+      );
+
+      return new Response(JSON.stringify(result.rows[0]), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
   } catch (error: any) {
     console.error('Error creating link:', error);
     return new Response(JSON.stringify({ error: error.message }), {
