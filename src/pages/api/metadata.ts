@@ -11,13 +11,19 @@ const scraper = metascraper([
   metascraperImage()
 ]);
 
-// Helper function to add timeout to fetch
-async function fetchWithTimeout(url: string, timeout = 5000) {
+// Helper function to add timeout to fetch with proper redirect handling
+async function fetchWithTimeout(url: string, timeout = 10000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(url, { 
+      signal: controller.signal,
+      redirect: 'follow', // Explicitly follow redirects
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
     clearTimeout(id);
     return response;
   } catch (error) {
