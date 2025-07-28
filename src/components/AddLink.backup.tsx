@@ -1,7 +1,5 @@
 import { useState, useRef } from 'react';
 import { Button } from './Button';
-import { Input } from './ui/input';
-import { cn } from '@/lib/utils';
 import type { FormEvent } from 'react';
 import { currentLinks } from '../stores/lists';
 import { sanitizeUrl } from '../utils/validation';
@@ -26,6 +24,7 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
 
     setIsSubmitting(true);
     try {
+
       const response = await fetch('/api/links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,13 +49,13 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="relative group">
-        <div className={cn(
-          "absolute inset-0 bg-[#15BFAE]/5 rounded-xl opacity-0 transition-opacity duration-300",
-          isFocused ? 'opacity-100' : 'group-hover:opacity-100'
-        )} />
+        <div className={`absolute inset-0 bg-[#15BFAE]/5 
+          rounded-xl opacity-0 transition-opacity duration-300
+          ${isFocused ? 'opacity-100' : 'group-hover:opacity-100'}`}
+        />
         <div className="relative flex gap-3">
           <div className="flex-1">
-            <Input
+            <input
               ref={inputRef}
               type="text"
               inputMode="url"
@@ -68,7 +67,10 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder="Enter a URL to add to your list"
-              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 transition-all duration-300"
+              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
+                text-gray-900 placeholder-gray-500
+                focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
+                transition-all duration-300"
               required
             />
           </div>

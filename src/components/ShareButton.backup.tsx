@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Button } from './Button';
 
 interface ShareButtonProps {
   url: string;
@@ -21,16 +20,21 @@ export function ShareButton({ url }: ShareButtonProps) {
 
   return (
     <div className="relative">
-      <Button
+      <button
         onClick={handleClick}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        variant="secondary"
-        className="group flex items-center gap-2"
+        className="group flex items-center gap-2 px-6 py-3 
+          bg-gray-50 hover:bg-gray-100
+          text-gray-700 font-medium rounded-xl
+          transition-all duration-300 ease-out transform hover:-translate-y-0.5
+          border border-gray-200
+          focus:outline-none focus:ring-2 focus:ring-[#15BFAE]/50"
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
-          className={`h-5 w-5 transition-transform duration-300 ease-out text-[#15BFAE] ${isHovering ? 'scale-110 rotate-12' : ''}`} 
+          className={`h-5 w-5 transition-transform duration-300 ease-out text-[#15BFAE]
+            ${isHovering ? 'scale-110 rotate-12' : ''}`} 
           viewBox="0 0 20 20" 
           fill="currentColor"
         >
@@ -42,10 +46,15 @@ export function ShareButton({ url }: ShareButtonProps) {
             <span className="absolute inset-x-0 -bottom-px h-px bg-[#15BFAE] animate-scale-in" />
           )}
         </span>
-      </Button>
+      </button>
 
       {copied && (
-        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-xl text-sm font-medium bg-white text-gray-700 border border-gray-200 shadow-sm animate-scale-in z-50">
+        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 
+          px-4 py-2 rounded-xl text-sm font-medium
+          bg-white text-gray-700
+          border border-gray-200 shadow-sm
+          animate-scale-in"
+        >
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-[#15BFAE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />

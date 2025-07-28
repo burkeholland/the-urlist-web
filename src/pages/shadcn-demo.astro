@@ -1,0 +1,347 @@
+---
+title: "shadcn/ui Component Demo"
+---
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>shadcn/ui Component Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Basic styles for demo */
+        body { 
+            font-family: 'Inter', system-ui, sans-serif; 
+            background: white;
+            color: #111827;
+            line-height: 1.6;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+        }
+        .demo-section { 
+            margin: 3rem 0; 
+            padding: 2rem; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 1rem; 
+            background: #fafafa;
+        }
+        .demo-title { 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            margin-bottom: 1rem; 
+            color: #15BFAE;
+        }
+        .component-grid { 
+            display: grid; 
+            gap: 1rem; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        }
+        .component-demo { 
+            padding: 1.5rem; 
+            background: white; 
+            border-radius: 0.75rem; 
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Mock button styles to demonstrate the components */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(to right, #15BFAE, #13B0A0);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(21, 191, 174, 0.2);
+        }
+        
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            background: #e5e7eb;
+        }
+        
+        .btn-destructive {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #dc2626;
+            border: 2px solid #fecaca;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .btn-destructive:hover {
+            transform: translateY(-2px);
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: rgba(21, 191, 174, 0.2);
+        }
+        
+        .input-demo {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .input-demo:focus {
+            outline: none;
+            border-color: #15BFAE;
+            box-shadow: 0 0 0 3px rgba(21, 191, 174, 0.1);
+        }
+        
+        .toast-demo {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: white;
+            border: 1px solid #15BFAE;
+            color: #15BFAE;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .skeleton {
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: #15BFAE;">
+            🎨 shadcn/ui Component System
+        </h1>
+        <p style="text-align: center; font-size: 1.125rem; color: #6b7280; margin-bottom: 3rem;">
+            Modern, accessible components with consistent design
+        </p>
+        
+        <!-- Buttons Section -->
+        <div class="demo-section">
+            <h2 class="demo-title">Buttons</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn-primary">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Primary Button
+                </button>
+                <button class="btn-secondary">Secondary Button</button>
+                <button class="btn-destructive">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9z" clip-rule="evenodd" />
+                    </svg>
+                    Delete
+                </button>
+            </div>
+        </div>
+        
+        <!-- Cards Section -->
+        <div class="demo-section">
+            <h2 class="demo-title">Cards & Links</h2>
+            <div class="component-grid">
+                <div class="card">
+                    <div style="display: flex;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #15BFAE, #13B0A0); flex-shrink: 0;"></div>
+                        <div style="padding: 1rem; flex: 1;">
+                            <h3 style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Example Link Title</h3>
+                            <p style="color: #15BFAE; font-size: 0.875rem; margin-bottom: 0.5rem;">example.com</p>
+                            <p style="color: #6b7280; font-size: 0.875rem; line-height: 1.4;">
+                                A description of this link that shows what it's about...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #8b5cf6, #7c3aed); flex-shrink: 0;"></div>
+                        <div style="padding: 1rem; flex: 1;">
+                            <h3 style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Another Great Link</h3>
+                            <p style="color: #15BFAE; font-size: 0.875rem; margin-bottom: 0.5rem;">anothersite.com</p>
+                            <p style="color: #6b7280; font-size: 0.875rem; line-height: 1.4;">
+                                More content that demonstrates the card layout...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Forms Section -->
+        <div class="demo-section">
+            <h2 class="demo-title">Form Components</h2>
+            <div style="max-width: 600px; space-y: 1rem;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: #374151;">
+                        List Title
+                    </label>
+                    <input type="text" class="input-demo" placeholder="Enter a title for your list" />
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: #374151;">
+                        Add Link URL
+                    </label>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <input type="url" class="input-demo" placeholder="https://example.com" style="flex: 1;" />
+                        <button class="btn-primary">Add</button>
+                    </div>
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: #374151;">
+                        Description
+                    </label>
+                    <textarea class="input-demo" placeholder="Add a description..." rows="3" style="resize: vertical; min-height: 120px;"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading States -->
+        <div class="demo-section">
+            <h2 class="demo-title">Loading States</h2>
+            <div class="component-grid">
+                <div class="card" style="padding: 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="skeleton" style="width: 60px; height: 60px;"></div>
+                        <div style="flex: 1; space-y: 0.5rem;">
+                            <div class="skeleton" style="height: 1rem; width: 75%;"></div>
+                            <div class="skeleton" style="height: 0.75rem; width: 50%;"></div>
+                            <div class="skeleton" style="height: 0.75rem; width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="padding: 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="skeleton" style="width: 60px; height: 60px;"></div>
+                        <div style="flex: 1; space-y: 0.5rem;">
+                            <div class="skeleton" style="height: 1rem; width: 80%;"></div>
+                            <div class="skeleton" style="height: 0.75rem; width: 40%;"></div>
+                            <div class="skeleton" style="height: 0.75rem; width: 95%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Color Palette -->
+        <div class="demo-section">
+            <h2 class="demo-title">Brand Colors</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="width: 100px; height: 100px; background: #15BFAE; border-radius: 1rem; margin: 0 auto 1rem;"></div>
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Primary</h4>
+                    <p style="color: #6b7280; font-family: monospace;">#15BFAE</p>
+                </div>
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="width: 100px; height: 100px; background: #F23005; border-radius: 1rem; margin: 0 auto 1rem;"></div>
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Destructive</h4>
+                    <p style="color: #6b7280; font-family: monospace;">#F23005</p>
+                </div>
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="width: 100px; height: 100px; background: #f3f4f6; border-radius: 1rem; margin: 0 auto 1rem; border: 1px solid #e5e7eb;"></div>
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Secondary</h4>
+                    <p style="color: #6b7280; font-family: monospace;">#f3f4f6</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demo Toast -->
+    <div class="toast-demo">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Success! Component system ready
+    </div>
+    
+    <script>
+        // Simple demo interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to buttons
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Add a little visual feedback
+                    this.style.transform = 'translateY(-1px) scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // Focus effects for inputs
+            document.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
