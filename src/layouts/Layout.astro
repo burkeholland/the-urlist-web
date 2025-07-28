@@ -50,25 +50,20 @@ const canonicalURL = new URL(
   <body
     class="flex min-h-screen flex-col bg-white text-gray-900 relative overflow-x-hidden antialiased"
   >
-    <!-- Subtle gradient accents -->
+    <!-- Modern gradient background -->
     <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.05),transparent_70%)]"
-    >
-    </div>
-    <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.05),transparent_70%)]"
-    >
-    </div>
-
+      class="fixed inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-teal-600/10 pointer-events-none"
+    ></div>
+    
     <nav
-      class="sticky top-0 z-20 backdrop-blur-lg border-b border-[#15BFAE]/10"
+      class="sticky top-0 z-50 border-b border-gray-200/50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60"
     >
       <div
         class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
       >
         <a
           href="/"
-          class="text-xl font-bold text-[#03A678] hover:text-[#15BFAE] transition-all duration-300 flex items-center gap-2"
+          class="text-xl font-bold text-teal-600 hover:text-teal-500 transition-colors duration-200 flex items-center gap-2"
         >
           <img src="/favicon.svg" alt="" class="w-6 h-6" />
           The Urlist
@@ -78,21 +73,21 @@ const canonicalURL = new URL(
             <li>
               <a
                 href="/"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
                 >My Lists</a
               >
             </li>
             <li>
               <a
                 href="/about"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
                 >About</a
               >
             </li>
             <li>
               <a
                 href="/terms"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
                 >Terms</a
               >
             </li>
@@ -108,7 +103,7 @@ const canonicalURL = new URL(
     </main>
 
     <footer
-      class="relative z-10 py-8 backdrop-blur-lg border-t border-[#15BFAE]/10 mt-auto"
+      class="relative z-10 py-8 border-t border-gray-200/50 bg-gray-50/50 backdrop-blur mt-auto"
     >
       <div
         class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600"
