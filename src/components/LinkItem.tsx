@@ -103,6 +103,22 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="14" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="14" r="1.5" fill="#A0AEC0"/></svg>
         </button>
       )}
+      
+      {/* Preview image */}
+      {image && (
+        <div className="flex-shrink-0">
+          <img
+            src={image}
+            alt=""
+            className="w-16 h-16 object-cover rounded-lg border border-gray-200
+              transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        </div>
+      )}
+      
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <a
