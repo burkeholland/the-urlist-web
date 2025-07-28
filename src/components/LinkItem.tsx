@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchGroups } from '../stores/groups';
+import type { LinkGroup } from '../types/group';
 
 interface LinkItemProps {
   id: number;
@@ -6,30 +8,41 @@ interface LinkItemProps {
   description: string;
   url: string;
   image: string;
+  group_id?: number | null;
+  list_id?: number;
   onDelete: (id: number) => void;
-  onEdit: (id: number, data: { url: string; title?: string; description?: string }) => void;
+  onEdit: (id: number, data: { url: string; title?: string; description?: string; group_id?: number | null }) => void;
   dragHandleProps?: any; // dnd-kit listeners for drag handle (optional)
 }
 
-export function LinkItem({ id, title, url, description, image, onDelete, onEdit, dragHandleProps }: LinkItemProps) {
+export function LinkItem({ id, title, url, description, image, group_id, list_id, onDelete, onEdit, dragHandleProps }: LinkItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editUrl, setEditUrl] = useState(url);
   const [editTitle, setEditTitle] = useState(title);
   const [editDescription, setEditDescription] = useState(description);
+  const [editGroupId, setEditGroupId] = useState<number | null | undefined>(group_id);
+  const [groups, setGroups] = useState<LinkGroup[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (typeof list_id === 'number') {
+      fetchGroups(list_id).then(setGroups);
+    }
+  }, [list_id]);
 
   const handleSave = () => {
     onEdit(id, {
       url: editUrl,
       title: editTitle,
-      description: editDescription
+      description: editDescription,
+      group_id: editGroupId ?? null
     });
     setIsEditing(false);
   };
 
   if (isEditing) {
     return (
-      <div className="bg-white rounded-2xl p-6 space-y-4 
+      <div className="bg-white rounded-2xl p-6 space-y-4 \
         border border-gray-200 shadow-sm animate-fade-in">
         <input
           type="url"
@@ -67,6 +80,20 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           placeholder="Description (optional)"
           rows={2}
         />
+        {/* Group select */}
+        <div>
+          <label className="block text-sm text-gray-600 mb-1">Group</label>
+          <select
+            value={editGroupId ?? ''}
+            onChange={e => setEditGroupId(e.target.value === '' ? null : Number(e.target.value))}
+            className="w-full p-2 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-[#15BFAE]"
+          >
+            <option value="">No group</option>
+            {groups.map(g => (
+              <option key={g.id} value={g.id}>{g.name}</option>
+            ))}
+          </select>
+        </div>
         <div className="flex justify-end gap-3">
           <button
             onClick={() => setIsEditing(false)}
@@ -88,7 +115,7 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
   }
 
   return (
-    <div className="group relative flex items-start gap-4 p-5 rounded-2xl 
+    <div className="group relative flex items-start gap-4 p-5 rounded-2xl \
       bg-white hover:bg-gray-50
       border border-gray-200
       transition-all duration-300">
@@ -100,10 +127,16 @@ export function LinkItem({ id, title, url, description, image, onDelete, onEdit,
           aria-label="Drag to reorder"
           className="mr-2 cursor-grab active:cursor-grabbing p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
         >
-          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="7" cy="14" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="6" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="10" r="1.5" fill="#A0AEC0"/><circle cx="13" cy="14" r="1.5" fill="#A0AEC0"/></svg>
+          <svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="7" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="7" cy="14" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="6" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="10" r="1.5" fill="#A0AEC0" /><circle cx="13" cy="14" r="1.5" fill="#A0AEC0" /></svg>
         </button>
       )}
       <div className="flex-1 min-w-0">
+        {/* Group badge */}
+        {group_id && (
+          <span className="inline-block mb-1 mr-2 px-2 py-0.5 text-xs bg-[#15BFAE]/10 text-[#15BFAE] rounded-full">
+            Group: {groups.find(g => g.id === group_id)?.name || group_id}
+          </span>
+        )}
         <div className="flex items-start justify-between gap-4">
           <a
             href={url}

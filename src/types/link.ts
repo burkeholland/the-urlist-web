@@ -6,5 +6,6 @@ export interface Link {
   image: string;
   position: number;
   list_id: number;
+  group_id: number | null;
   created_at: string;
 }
