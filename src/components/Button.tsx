@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { Button as ShadcnButton } from './ui/button';
+import { cn } from '@/lib/utils';
 
 interface ButtonProps {
   children?: ReactNode;
@@ -17,49 +19,57 @@ export function Button({
   disabled = false,
   isLoading = false
 }: ButtonProps) {
-  const baseClasses = `
-    relative px-6 py-3 rounded-xl font-medium 
-    transition-all duration-300 ease-out transform
-    disabled:opacity-50 disabled:cursor-not-allowed
-    hover:-translate-y-0.5 active:translate-y-0
-    focus:outline-none focus:ring-2 focus:ring-opacity-50
-    flex items-center justify-center gap-2
-  `;
+  // Map our custom variants to shadcn/ui variants
+  const shadcnVariant = variant === 'primary' ? 'default' : 
+                       variant === 'secondary' ? 'secondary' : 
+                       'destructive';
 
-  const variantClasses = {
-    primary: `
-      bg-gradient-to-r from-[#15BFAE] to-[#13B0A0]
-      hover:from-[#13B0A0] hover:to-[#03A678]
-      text-white shadow-sm
-      focus:ring-[#15BFAE]/50
-      hover:shadow-lg hover:shadow-[#15BFAE]/20
-    `,
-    secondary: `
-      bg-gray-100 hover:bg-gray-200
-      text-gray-700 hover:text-gray-900
-      border border-gray-200
-      focus:ring-gray-300
-      hover:border-gray-300
-    `,
-    destructive: `
-      bg-white hover:bg-red-50
-      text-red-600 hover:text-red-700
-      border-2 border-red-200 hover:border-red-300
-      focus:ring-red-200
-      hover:shadow-lg hover:shadow-red-100
-    `
-  };
+  // Custom styling to maintain the original design
+  const customClasses = cn(
+    // Base styling to match original
+    "px-6 py-3 rounded-xl font-medium transition-all duration-300 ease-out transform",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+    "hover:-translate-y-0.5 active:translate-y-0",
+    "focus:outline-none focus:ring-2 focus:ring-opacity-50",
+    "flex items-center justify-center gap-2 relative",
+    
+    // Variant-specific styling to maintain original appearance
+    variant === 'primary' ? [
+      "bg-gradient-to-r from-[#15BFAE] to-[#13B0A0]",
+      "hover:from-[#13B0A0] hover:to-[#03A678]",
+      "text-white shadow-sm",
+      "focus:ring-[#15BFAE]/50",
+      "hover:shadow-lg hover:shadow-[#15BFAE]/20"
+    ].join(' ') : '',
+    
+    variant === 'secondary' ? [
+      "bg-gray-100 hover:bg-gray-200",
+      "text-gray-700 hover:text-gray-900",
+      "border border-gray-200",
+      "focus:ring-gray-300",
+      "hover:border-gray-300"
+    ].join(' ') : '',
+    
+    variant === 'destructive' ? [
+      "bg-white hover:bg-red-50",
+      "text-red-600 hover:text-red-700",
+      "border-2 border-red-200 hover:border-red-300",
+      "focus:ring-red-200",
+      "hover:shadow-lg hover:shadow-red-100"
+    ].join(' ') : ''
+  );
 
   const spinnerColor = variant === 'destructive' ? 'text-red-600' : 
                       variant === 'secondary' ? 'text-gray-700' : 
                       'text-white';
 
   return (
-    <button
+    <ShadcnButton
       type={type}
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={`${baseClasses} ${variantClasses[variant]}`}
+      variant={shadcnVariant}
+      className={customClasses}
     >
       <span className={`flex items-center gap-2 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
         {children}
@@ -72,6 +82,6 @@ export function Button({
           </svg>
         </div>
       )}
-    </button>
+    </ShadcnButton>
   );
 }

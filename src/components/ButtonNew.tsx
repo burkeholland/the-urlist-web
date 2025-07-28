@@ -34,29 +34,29 @@ export function Button({
     "flex items-center justify-center gap-2 relative",
     
     // Variant-specific styling to maintain original appearance
-    variant === 'primary' && [
+    variant === 'primary' ? [
       "bg-gradient-to-r from-[#15BFAE] to-[#13B0A0]",
       "hover:from-[#13B0A0] hover:to-[#03A678]",
       "text-white shadow-sm",
       "focus:ring-[#15BFAE]/50",
       "hover:shadow-lg hover:shadow-[#15BFAE]/20"
-    ],
+    ].join(' ') : '',
     
-    variant === 'secondary' && [
+    variant === 'secondary' ? [
       "bg-gray-100 hover:bg-gray-200",
       "text-gray-700 hover:text-gray-900",
       "border border-gray-200",
       "focus:ring-gray-300",
       "hover:border-gray-300"
-    ],
+    ].join(' ') : '',
     
-    variant === 'destructive' && [
+    variant === 'destructive' ? [
       "bg-white hover:bg-red-50",
       "text-red-600 hover:text-red-700",
       "border-2 border-red-200 hover:border-red-300",
       "focus:ring-red-200",
       "hover:shadow-lg hover:shadow-red-100"
-    ]
+    ].join(' ') : ''
   );
 
   const spinnerColor = variant === 'destructive' ? 'text-red-600' : 
