@@ -30,28 +30,37 @@ export function Button({
     primary: `
       bg-gradient-to-r from-[#15BFAE] to-[#13B0A0]
       hover:from-[#13B0A0] hover:to-[#03A678]
+      dark:from-[#15BFAE] dark:to-[#13B0A0]
+      dark:hover:from-[#13B0A0] dark:hover:to-[#03A678]
       text-white shadow-sm
       focus:ring-[#15BFAE]/50
       hover:shadow-lg hover:shadow-[#15BFAE]/20
+      dark:hover:shadow-[#15BFAE]/30
     `,
     secondary: `
       bg-gray-100 hover:bg-gray-200
+      dark:bg-gray-800 dark:hover:bg-gray-700
       text-gray-700 hover:text-gray-900
-      border border-gray-200
-      focus:ring-gray-300
-      hover:border-gray-300
+      dark:text-gray-300 dark:hover:text-gray-100
+      border border-gray-200 dark:border-gray-700
+      focus:ring-gray-300 dark:focus:ring-gray-600
+      hover:border-gray-300 dark:hover:border-gray-600
     `,
     destructive: `
       bg-white hover:bg-red-50
+      dark:bg-gray-800 dark:hover:bg-red-900/20
       text-red-600 hover:text-red-700
+      dark:text-red-400 dark:hover:text-red-300
       border-2 border-red-200 hover:border-red-300
-      focus:ring-red-200
+      dark:border-red-800 dark:hover:border-red-700
+      focus:ring-red-200 dark:focus:ring-red-800
       hover:shadow-lg hover:shadow-red-100
+      dark:hover:shadow-red-900/20
     `
   };
 
-  const spinnerColor = variant === 'destructive' ? 'text-red-600' : 
-                      variant === 'secondary' ? 'text-gray-700' : 
+  const spinnerColor = variant === 'destructive' ? 'text-red-600 dark:text-red-400' : 
+                      variant === 'secondary' ? 'text-gray-700 dark:text-gray-300' : 
                       'text-white';
 
   return (

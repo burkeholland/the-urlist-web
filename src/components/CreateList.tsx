@@ -43,12 +43,12 @@ export function CreateList() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto w-full p-4">
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600">
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 transition-theme duration-300">
           {error}
         </div>
       )}
       <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
+        <div className={`absolute inset-0 bg-[#15BFAE]/5 dark:bg-[#15BFAE]/10 pointer-events-none
           rounded-xl opacity-0 transition-opacity duration-300
           ${focusedInput === 'title' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
         />
@@ -59,8 +59,8 @@ export function CreateList() {
           onChange={(e) => setTitle(e.target.value)}
           onFocus={() => setFocusedInput('title')}
           onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500 text-lg
+          className="w-full px-6 py-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 text-lg
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
             transition-all duration-300"
           required
@@ -68,7 +68,7 @@ export function CreateList() {
       </div>
 
       <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
+        <div className={`absolute inset-0 bg-[#15BFAE]/5 dark:bg-[#15BFAE]/10 pointer-events-none
           rounded-xl opacity-0 transition-opacity duration-300
           ${focusedInput === 'slug' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
         />
@@ -79,15 +79,15 @@ export function CreateList() {
           onChange={(e) => setSlug(e.target.value)}
           onFocus={() => setFocusedInput('slug')}
           onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
+          className="w-full px-6 py-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
             transition-all duration-300"
         />
       </div>
 
       <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
+        <div className={`absolute inset-0 bg-[#15BFAE]/5 dark:bg-[#15BFAE]/10 pointer-events-none
           rounded-xl opacity-0 transition-opacity duration-300
           ${focusedInput === 'description' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
         />
@@ -97,8 +97,8 @@ export function CreateList() {
           onChange={(e) => setDescription(e.target.value)}
           onFocus={() => setFocusedInput('description')}
           onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
+          className="w-full px-6 py-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl
+            text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
             focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
             transition-all duration-300
             min-h-[120px] resize-y"
