@@ -3,66 +3,22 @@ import Layout from "../layouts/Layout.astro";
 import { CreateList } from "../components/CreateList";
 ---
 
+---
+import Layout from "../layouts/Layout.astro";
+import { CreateList } from "../components/CreateList";
+import { ModernHero } from "../components/ModernHero";
+---
+
 <Layout>
-  <main class="max-w-6xl mx-auto px-4 py-16">
-    <!-- Hero Section -->
-    <div class="text-center mb-16 space-y-6">
-      <h1 class="text-6xl font-bold bg-gradient-to-r from-teal-600 via-teal-500 to-teal-600 bg-clip-text text-transparent">
-        Share Your Links <span class="text-gray-900">Simply</span>
-      </h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-        Create and share beautiful collections of links with an elegant, easy-to-share URL.
-      </p>
-    </div>
+  <main class="relative">
+    <!-- Modern Hero Section -->
+    <ModernHero client:load />
 
-    <!-- Create List Card -->
-    <div class="mb-16 fade-in">
-      <CreateList client:load />
-    </div>
-
-    <!-- Features Grid -->
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="group">
-        <div class="bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-          <div class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110">
-            ✨
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-teal-600">
-            Easy to Use
-          </h3>
-          <p class="text-gray-600">
-            Just enter a title, add your links, and share your list with anyone.
-          </p>
-        </div>
+    <!-- Create List Section -->
+    <section class="relative py-16 bg-gradient-to-b from-white/50 to-gray-50/50">
+      <div class="max-w-6xl mx-auto px-4">
+        <CreateList client:load />
       </div>
-
-      <div class="group">
-        <div class="bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-          <div class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110">
-            🔍
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-teal-600">
-            Rich Previews
-          </h3>
-          <p class="text-gray-600">
-            Links automatically show titles, descriptions, and images from the original content.
-          </p>
-        </div>
-      </div>
-
-      <div class="group">
-        <div class="bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-          <div class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110">
-            🔗
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-teal-600">
-            Custom URLs
-          </h3>
-          <p class="text-gray-600">
-            Choose a custom URL for your list or let us generate one for you.
-          </p>
-        </div>
-      </div>
-    </div>
+    </section>
   </main>
 </Layout>

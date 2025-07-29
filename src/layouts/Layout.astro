@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ModernNavbar } from "../components/ModernNavbar.tsx";
 
 interface Props {
   title?: string;
@@ -55,46 +56,7 @@ const canonicalURL = new URL(
       class="fixed inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-teal-600/10 pointer-events-none"
     ></div>
     
-    <nav
-      class="sticky top-0 z-50 border-b border-gray-200/50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60"
-    >
-      <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
-      >
-        <a
-          href="/"
-          class="text-xl font-bold text-teal-600 hover:text-teal-500 transition-colors duration-200 flex items-center gap-2"
-        >
-          <img src="/favicon.svg" alt="" class="w-6 h-6" />
-          The Urlist
-        </a>
-        <div class="ml-8 flex-1">
-          <ul class="flex gap-6 justify-center">
-            <li>
-              <a
-                href="/"
-                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
-                >My Lists</a
-              >
-            </li>
-            <li>
-              <a
-                href="/about"
-                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
-                >About</a
-              >
-            </li>
-            <li>
-              <a
-                href="/terms"
-                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
-                >Terms</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <ModernNavbar client:load currentPath={Astro.url.pathname} />
 
     <main class="flex-grow relative z-10">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
