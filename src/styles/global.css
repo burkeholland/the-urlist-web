@@ -5,6 +5,20 @@
   --font-inter: 'Inter', system-ui, sans-serif;
 }
 
+/* Dark mode root variables */
+.dark {
+  color-scheme: dark;
+}
+
+/* Smooth theme transitions */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.transition-theme {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
 /* Animation classes */
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
@@ -54,6 +68,10 @@
     border-radius: 0.25rem;
   }
 
+  .dark ::-webkit-scrollbar-track {
+    background-color: #374151;
+  }
+
   ::-webkit-scrollbar-thumb {
     background-color: #15BFAE;
     border-radius: 0.25rem;
@@ -72,4 +90,11 @@ input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
   -webkit-text-fill-color: #111827;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #374151 inset;
+  -webkit-text-fill-color: #f3f4f6;
 }

@@ -49,7 +49,7 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 
+        <div className={`absolute inset-0 bg-[#15BFAE]/5 dark:bg-[#15BFAE]/10
           rounded-xl opacity-0 transition-opacity duration-300
           ${isFocused ? 'opacity-100' : 'group-hover:opacity-100'}`}
         />
@@ -67,8 +67,8 @@ export function AddLink({ listId, onAdd }: AddLinkProps) {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder="Enter a URL to add to your list"
-              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-                text-gray-900 placeholder-gray-500
+              className="w-full px-6 py-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl
+                text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400
                 focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
                 transition-all duration-300"
               required

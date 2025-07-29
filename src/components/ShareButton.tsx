@@ -25,10 +25,10 @@ export function ShareButton({ url }: ShareButtonProps) {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         className="group flex items-center gap-2 px-6 py-3 
-          bg-gray-50 hover:bg-gray-100
-          text-gray-700 font-medium rounded-xl
+          bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700
+          text-gray-700 dark:text-gray-300 font-medium rounded-xl
           transition-all duration-300 ease-out transform hover:-translate-y-0.5
-          border border-gray-200
+          border border-gray-200 dark:border-gray-700
           focus:outline-none focus:ring-2 focus:ring-[#15BFAE]/50"
       >
         <svg 

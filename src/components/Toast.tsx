@@ -29,10 +29,10 @@ export function Toast({
   return (
     <div
       className={`fixed bottom-4 right-4 px-6 py-3
-        bg-white rounded-xl shadow-lg
-        border ${type === 'error' ? 'border-[#F23005]' : 'border-[#15BFAE]'}
+        bg-white dark:bg-gray-800 rounded-xl shadow-lg
+        border ${type === 'error' ? 'border-[#F23005] dark:border-[#FF4444]' : 'border-[#15BFAE]'}
         transform transition-all duration-300 ease-out
-        ${type === 'error' ? 'text-[#F23005]' : 'text-[#15BFAE]'}
+        ${type === 'error' ? 'text-[#F23005] dark:text-[#FF4444]' : 'text-[#15BFAE]'}
         animate-scale-in
       `}
       role="alert"
