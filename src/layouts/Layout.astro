@@ -48,75 +48,131 @@ const canonicalURL = new URL(
     />
   </head>
   <body
-    class="flex min-h-screen flex-col bg-white text-gray-900 relative overflow-x-hidden antialiased"
+    class="flex min-h-screen flex-col bg-gray-50 text-gray-900 relative overflow-x-hidden antialiased"
   >
-    <!-- Subtle gradient accents -->
+    <!-- Modern gradient background -->
     <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.05),transparent_70%)]"
+      class="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(21,191,174,0.08),transparent_70%)]"
     >
     </div>
     <div
-      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(3,165,119,0.05),transparent_70%)]"
+      class="fixed inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(21,191,174,0.06),transparent_70%)]"
     >
     </div>
 
     <nav
-      class="sticky top-0 z-20 backdrop-blur-lg border-b border-[#15BFAE]/10"
+      class="sticky top-0 z-20 backdrop-blur-lg border-b border-gray-200/60 bg-white/80"
     >
       <div
         class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
       >
         <a
           href="/"
-          class="text-xl font-bold text-[#03A678] hover:text-[#15BFAE] transition-all duration-300 flex items-center gap-2"
+          class="text-xl font-bold text-[#15BFAE] hover:text-[#03A678] transition-all duration-300 flex items-center gap-2"
         >
-          <img src="/favicon.svg" alt="" class="w-6 h-6" />
+          <div class="w-8 h-8 bg-gradient-to-br from-[#15BFAE] to-[#03A678] rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+            </svg>
+          </div>
           The Urlist
         </a>
         <div class="ml-8 flex-1">
-          <ul class="flex gap-6 justify-center">
+          <ul class="flex gap-8 justify-center">
             <li>
               <a
                 href="/"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 text-sm"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="/"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 text-sm"
                 >My Lists</a
               >
             </li>
             <li>
               <a
                 href="/about"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 text-sm"
                 >About</a
               >
             </li>
             <li>
               <a
                 href="/terms"
-                class="text-gray-700 hover:text-[#15BFAE] font-medium transition-colors duration-200"
+                class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 text-sm"
                 >Terms</a
               >
             </li>
           </ul>
         </div>
+        <div class="flex items-center gap-4">
+          <button class="p-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </nav>
 
     <main class="flex-grow relative z-10">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <slot />
-      </div>
+      <slot />
     </main>
 
     <footer
-      class="relative z-10 py-8 backdrop-blur-lg border-t border-[#15BFAE]/10 mt-auto"
+      class="relative z-10 py-12 backdrop-blur-lg border-t border-border/60 bg-background/80 mt-auto"
     >
       <div
-        class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600"
+        class="container mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <p>
-          &copy; {new Date().getFullYear()} The Urlist. Share your links with the
-          world.
-        </p>
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div class="space-y-4">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+              </div>
+              <span class="font-bold text-foreground">The Urlist</span>
+            </div>
+            <p class="text-sm text-muted-foreground">
+              Share your links beautifully with rich previews and custom URLs.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-foreground mb-4">Product</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li><a href="/" class="hover:text-foreground transition-colors">Create List</a></li>
+              <li><a href="/features" class="hover:text-foreground transition-colors">Features</a></li>
+              <li><a href="/examples" class="hover:text-foreground transition-colors">Examples</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-foreground mb-4">Company</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li><a href="/about" class="hover:text-foreground transition-colors">About</a></li>
+              <li><a href="/privacy" class="hover:text-foreground transition-colors">Privacy</a></li>
+              <li><a href="/terms" class="hover:text-foreground transition-colors">Terms</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-foreground mb-4">Connect</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li><a href="/contact" class="hover:text-foreground transition-colors">Contact</a></li>
+              <li><a href="/support" class="hover:text-foreground transition-colors">Support</a></li>
+              <li><a href="/feedback" class="hover:text-foreground transition-colors">Feedback</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-border/60 pt-8 text-center">
+          <p class="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} The Urlist. Share your links with the world.
+          </p>
+        </div>
       </div>
     </footer>
   </body>

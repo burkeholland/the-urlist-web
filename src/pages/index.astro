@@ -4,73 +4,144 @@ import { CreateList } from "../components/CreateList";
 ---
 
 <Layout>
-  <main class="max-w-4xl mx-auto px-4 py-16">
-    <div class="text-center mb-16 space-y-6">
-      <h1 class="text-6xl font-bold text-gray-900">
-        Share Your Links <span class="text-[#15BFAE]">Simply</span>
-      </h1>
-      <p class="text-xl text-gray-600">
-        Create and share collections of links with a beautiful, easy-to-share URL.
-      </p>
+  <main class="max-w-7xl mx-auto px-4 py-16">
+    <!-- Hero Section -->
+    <div class="text-center mb-20 space-y-8">
+      <div class="space-y-4">
+        <h1 class="text-5xl md:text-7xl font-bold text-foreground">
+          Share Your Links 
+          <span class="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            Beautifully
+          </span>
+        </h1>
+        <p class="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          Create stunning collections of links with rich previews, custom URLs, and seamless sharing. 
+          Perfect for curators, creators, and anyone who loves organized content.
+        </p>
+      </div>
+      
+      <!-- Call to Action Badges -->
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <div class="bg-primary/10 text-primary px-4 py-2 rounded-full border border-primary/20">
+          ✨ No registration needed
+        </div>
+        <div class="bg-primary/10 text-primary px-4 py-2 rounded-full border border-primary/20">
+          🚀 Instant sharing
+        </div>
+        <div class="bg-primary/10 text-primary px-4 py-2 rounded-full border border-primary/20">
+          🎨 Beautiful previews
+        </div>
+      </div>
     </div>
 
-    <div
-      class="bg-white rounded-2xl shadow-sm p-8 mb-16
-      border border-gray-200"
-    >
+    <!-- Create List Form -->
+    <div class="mb-20">
       <CreateList client:load />
     </div>
 
-    <div class="grid md:grid-cols-3 gap-8">
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          ✨
+    <!-- Feature Cards -->
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <div class="group relative bg-card p-8 rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative">
+          <div class="text-4xl mb-6 transform transition-transform duration-300 group-hover:scale-110">
+            ✨
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-foreground">
+            Effortless Creation
+          </h3>
+          <p class="text-muted-foreground leading-relaxed">
+            Simply enter a title, add your links, and share instantly. No complex setup or registration required.
+          </p>
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Easy to Use
-        </h3>
-        <p class="text-gray-600">
-          Just enter a title, add your links, and share your list with anyone.
-        </p>
       </div>
 
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          🔍
+      <div class="group relative bg-card p-8 rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative">
+          <div class="text-4xl mb-6 transform transition-transform duration-300 group-hover:scale-110">
+            🎨
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-foreground">
+            Rich Previews
+          </h3>
+          <p class="text-muted-foreground leading-relaxed">
+            Links automatically display beautiful previews with titles, descriptions, and images from the original content.
+          </p>
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Rich Previews
-        </h3>
-        <p class="text-gray-600">
-          Links automatically show titles, descriptions, and images from the original content.
-        </p>
       </div>
 
-      <div
-        class="group bg-white p-8 rounded-xl border border-gray-200
-        hover:border-[#15BFAE]/30 transition-all duration-300 hover:-translate-y-1"
-      >
-        <div
-          class="text-2xl mb-4 transform transition-transform duration-300 group-hover:scale-110"
-        >
-          🔗
+      <div class="group relative bg-card p-8 rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative">
+          <div class="text-4xl mb-6 transform transition-transform duration-300 group-hover:scale-110">
+            🔗
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-foreground">
+            Custom URLs
+          </h3>
+          <p class="text-muted-foreground leading-relaxed">
+            Create memorable custom URLs for your lists or let us generate clean, shareable links automatically.
+          </p>
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#15BFAE]">
-          Custom URLs
-        </h3>
-        <p class="text-gray-600">
-          Choose a custom URL for your list or let us generate one for you.
-        </p>
+      </div>
+    </div>
+
+    <!-- Secondary Features -->
+    <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+      <div class="space-y-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-foreground">
+          Built for Modern Sharing
+        </h2>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="bg-primary/10 p-2 rounded-lg mt-1">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-foreground mb-1">Lightning Fast</h3>
+              <p class="text-muted-foreground">Create and share lists in seconds, not minutes.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="bg-primary/10 p-2 rounded-lg mt-1">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-foreground mb-1">Mobile Optimized</h3>
+              <p class="text-muted-foreground">Perfect experience on any device, anywhere.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="bg-primary/10 p-2 rounded-lg mt-1">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-foreground mb-1">Always Reliable</h3>
+              <p class="text-muted-foreground">Your lists are always available and fast to load.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="bg-gradient-to-br from-primary/20 via-primary/10 to-transparent rounded-2xl p-8 border border-primary/20">
+          <div class="bg-card rounded-lg p-6 border border-border shadow-sm">
+            <div class="space-y-4">
+              <div class="h-4 bg-primary/20 rounded w-3/4"></div>
+              <div class="h-3 bg-muted rounded w-1/2"></div>
+              <div class="space-y-2">
+                <div class="h-3 bg-muted rounded"></div>
+                <div class="h-3 bg-muted rounded w-4/5"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
