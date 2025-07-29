@@ -21,26 +21,64 @@ export const POST: APIRoute = async ({ request }) => {
     let { url, list_id } = body;
     url = sanitizeUrl(url);
 
-    // Fetch metadata
-    const response = await fetch(url);
-    const html = await response.text();
-    const metadata = await scraper({ html, url });
+    // Fetch metadata with proper headers and timeout
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-    const result = await client.query(
-      'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [
-        metadata.title || url,
-        metadata.description || '',
-        url,
-        metadata.image || '',
-        list_id
-      ]
-    );
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; TheUrlist/1.0; +https://theurlist.com)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Cache-Control': 'max-age=0'
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      const html = await response.text();
+      const metadata = await scraper({ html, url });
 
-    return new Response(JSON.stringify(result.rows[0]), {
-      status: 201,
-      headers: { 'Content-Type': 'application/json' }
-    });
+      const result = await client.query(
+        'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [
+          metadata.title || url,
+          metadata.description || '',
+          url,
+          metadata.image || '',
+          list_id
+        ]
+      );
+
+      return new Response(JSON.stringify(result.rows[0]), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (fetchError) {
+      // If metadata fetching fails, still create the link with fallback data
+      const result = await client.query(
+        'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [
+          url, // Use URL as title fallback
+          '',  // Empty description
+          url,
+          '',  // Empty image
+          list_id
+        ]
+      );
+
+      return new Response(JSON.stringify(result.rows[0]), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
   } catch (error: any) {
     console.error('Error creating link:', error);
     return new Response(JSON.stringify({ error: error.message }), {
