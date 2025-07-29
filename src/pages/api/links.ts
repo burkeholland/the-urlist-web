@@ -1,12 +1,12 @@
 
 import type { APIRoute } from 'astro';
 import { client } from '../../utils/db';
-import fetch from 'node-fetch';
 import metascraper from 'metascraper';
 import metascraperTitle from 'metascraper-title';
 import metascraperDescription from 'metascraper-description';
 import metascraperImage from 'metascraper-image';
 import { sanitizeUrl } from '../../utils/validation';
+import { fetchWithEnhancedHeaders } from '../../utils/fetch';
 
 const scraper = metascraper([
   metascraperTitle(),
@@ -21,10 +21,25 @@ export const POST: APIRoute = async ({ request }) => {
     let { url, list_id } = body;
     url = sanitizeUrl(url);
 
-    // Fetch metadata
-    const response = await fetch(url);
-    const html = await response.text();
-    const metadata = await scraper({ html, url });
+    console.log(`Creating link for URL: ${url}`);
+
+    // Fetch metadata with enhanced headers and retry logic
+    let metadata = { title: null, description: null, image: null };
+    
+    try {
+      const response = await fetchWithEnhancedHeaders(url);
+      const html = await response.text();
+      metadata = await scraper({ html, url });
+      
+      console.log(`Successfully fetched metadata for ${url}:`, {
+        title: metadata.title || 'none',
+        description: metadata.description ? `${metadata.description.substring(0, 100)}...` : 'none',
+        image: metadata.image || 'none'
+      });
+    } catch (fetchError: any) {
+      console.error(`Failed to fetch metadata for ${url}:`, fetchError.message);
+      // Continue with empty metadata - will use URL as fallback
+    }
 
     const result = await client.query(
       'INSERT INTO links (title, description, url, image, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',

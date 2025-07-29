@@ -3,28 +3,13 @@ import metascraper from 'metascraper';
 import metascraperTitle from 'metascraper-title';
 import metascraperDescription from 'metascraper-description';
 import metascraperImage from 'metascraper-image';
-import fetch from 'node-fetch';
+import { fetchWithEnhancedHeaders } from '../../utils/fetch';
 
 const scraper = metascraper([
   metascraperTitle(),
   metascraperDescription(),
   metascraperImage()
 ]);
-
-// Helper function to add timeout to fetch
-async function fetchWithTimeout(url: string, timeout = 5000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(id);
-    return response;
-  } catch (error) {
-    clearTimeout(id);
-    throw error;
-  }
-}
 
 // Generate a basic metadata object from URL
 function generateFallbackMetadata(url: string) {
@@ -56,9 +41,16 @@ export const GET: APIRoute = async ({ url }) => {
     }
 
     try {
-      const response = await fetchWithTimeout(targetUrl);
+      console.log(`Processing metadata request for: ${targetUrl}`);
+      const response = await fetchWithEnhancedHeaders(targetUrl);
       const html = await response.text();
       const metadata = await scraper({ html, url: targetUrl });
+
+      console.log(`Scraped metadata:`, {
+        title: metadata.title || 'none',
+        description: metadata.description ? `${metadata.description.substring(0, 100)}...` : 'none',
+        image: metadata.image || 'none'
+      });
 
       // If metadata is incomplete, merge with fallback data
       const fallback = generateFallbackMetadata(targetUrl);
@@ -72,8 +64,9 @@ export const GET: APIRoute = async ({ url }) => {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
-    } catch (fetchError) {
+    } catch (fetchError: any) {
       // If fetching fails, return fallback metadata
+      console.error(`Metadata fetch failed for ${targetUrl}:`, fetchError.message);
       const fallback = generateFallbackMetadata(targetUrl);
       return new Response(JSON.stringify(fallback), {
         status: 200,
