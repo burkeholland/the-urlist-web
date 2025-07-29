@@ -124,5 +124,34 @@ const canonicalURL = new URL(
         </p>
       </div>
     </footer>
+    
+    <!-- Theme initialization script - must run before React components -->
+    <script is:inline>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        function initTheme() {
+          const stored = localStorage.getItem('theme-preference');
+          if (stored === 'dark' || stored === 'light') {
+            if (stored === 'dark') {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+            return;
+          }
+          
+          // Check system preference
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme-preference', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme-preference', 'light');
+          }
+        }
+        
+        initTheme();
+      })();
+    </script>
   </body>
 </html>
