@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from './Button';
+import { PlusIcon, Loader2Icon } from 'lucide-react';
 
 export function CreateList() {
   const [title, setTitle] = useState('');
@@ -7,7 +7,6 @@ export function CreateList() {
   const [slug, setSlug] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [focusedInput, setFocusedInput] = useState<'title' | 'slug' | 'description' | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,79 +40,88 @@ export function CreateList() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto w-full p-4">
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600">
-          {error}
-        </div>
-      )}
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'title' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <input
-          type="text"
-          placeholder="Enter a title for your list"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onFocus={() => setFocusedInput('title')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500 text-lg
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300"
-          required
-        />
+    <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-200/50 overflow-hidden">
+      <div className="bg-gradient-to-r from-[#15BFAE]/5 to-[#03A678]/5 px-8 py-6 border-b border-gray-100">
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-2">Create Your List</h2>
+        <p className="text-center text-gray-600">
+          Share your favorite links with a beautiful, easy-to-share URL
+        </p>
       </div>
+      
+      <div className="p-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+          
+          <div className="space-y-2">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+              List Title *
+            </label>
+            <input
+              id="title"
+              type="text"
+              placeholder="Enter a title for your list"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full px-4 py-3 text-lg bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#15BFAE] focus:border-transparent transition-all duration-200"
+              required
+            />
+          </div>
 
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'slug' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <input
-          type="text"
-          placeholder="Custom URL (optional)"
-          value={slug}
-          onChange={(e) => setSlug(e.target.value)}
-          onFocus={() => setFocusedInput('slug')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300"
-        />
-      </div>
+          <div className="space-y-2">
+            <label htmlFor="slug" className="block text-sm font-medium text-gray-700">
+              Custom URL
+            </label>
+            <input
+              id="slug"
+              type="text"
+              placeholder="custom-url-name (optional)"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#15BFAE] focus:border-transparent transition-all duration-200"
+            />
+            <p className="text-xs text-gray-500">
+              Leave empty to generate automatically
+            </p>
+          </div>
 
-      <div className="relative group">
-        <div className={`absolute inset-0 bg-[#15BFAE]/5 pointer-events-none
-          rounded-xl opacity-0 transition-opacity duration-300
-          ${focusedInput === 'description' ? 'opacity-100' : 'group-hover:opacity-100'}`} 
-        />
-        <textarea
-          placeholder="Add a description (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          onFocus={() => setFocusedInput('description')}
-          onBlur={() => setFocusedInput(null)}
-          className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl
-            text-gray-900 placeholder-gray-500
-            focus:outline-none focus:border-[#15BFAE] focus:ring-2 focus:ring-[#15BFAE]/20 
-            transition-all duration-300
-            min-h-[120px] resize-y"
-        />
-      </div>
+          <div className="space-y-2">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+              Description
+            </label>
+            <textarea
+              id="description"
+              placeholder="Add a description for your list (optional)"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-4 py-3 min-h-[100px] bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#15BFAE] focus:border-transparent transition-all duration-200 resize-y"
+            />
+          </div>
 
-      <div className="flex justify-end pt-4">
-        <Button type="submit" isLoading={isSubmitting}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
-          <span className="hidden sm:inline">{isSubmitting ? 'Creating List...' : 'Create List'}</span>
-          <span className="sm:hidden">Create</span>
-        </Button>
+          <div className="flex justify-end pt-4">
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-[#15BFAE] to-[#03A678] text-white font-medium rounded-lg hover:from-[#03A678] hover:to-[#15BFAE] focus:outline-none focus:ring-2 focus:ring-[#15BFAE] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 active:scale-95 min-w-[150px]"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2Icon className="w-5 h-5 mr-2 animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                <>
+                  <PlusIcon className="w-5 h-5 mr-2" />
+                  Create List
+                </>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
