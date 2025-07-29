@@ -50,8 +50,7 @@ async function fetchWithTimeoutAndRetry(
           'Connection': 'keep-alive',
           'Upgrade-Insecure-Requests': '1'
         },
-        follow: 5, // Follow up to 5 redirects
-        timeout: timeout
+        redirect: 'follow' // Follow redirects
       });
       
       clearTimeout(timeoutId);
