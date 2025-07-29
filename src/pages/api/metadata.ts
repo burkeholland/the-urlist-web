@@ -11,13 +11,22 @@ const scraper = metascraper([
   metascraperImage()
 ]);
 
-// Helper function to add timeout to fetch
+// Helper function to add timeout to fetch with proper headers
 async function fetchWithTimeout(url: string, timeout = 5000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; TheUrlist/1.0; +https://theurlist.com)',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Connection': 'keep-alive',
+      }
+    });
     clearTimeout(id);
     return response;
   } catch (error) {
